@@ -1,0 +1,75 @@
+/* StartPage.css */
+
+/* Full-screen background with a gradient purple theme */
+.start-page-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to right, #8e44ad, #9b59b6);  /* Gradient from dark to light purple */
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+    text-align: center;
+  }
+  
+  /* Dark overlay for readability */
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);  /* Semi-transparent overlay */
+    z-index: 1;
+  }
+  
+  /* Styling for the welcome message with shadow and animation */
+  .welcome-message {
+    font-size: 4rem;
+    margin-bottom: 30px;
+    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
+    letter-spacing: 5px;
+    animation: fadeIn 2s ease-out; /* Fade-in effect */
+    padding: 20px;
+    border: 4px solid #fff; /* White border around the box */
+    border-radius: 15px; /* Rounded corners */
+    background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent background inside the box */
+    display: inline-block; /* Make the box fit around the text */
+    z-index: 2;
+  }
+  
+  /* Style for the button with hover effects */
+  .go-button {
+    background-color: #f1c40f; /* Golden color for the adventure theme */
+    color: #2c3e50;
+    font-size: 1.5rem;
+    padding: 20px 40px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    z-index: 2;
+  }
+  
+  .go-button:hover {
+    background-color: #f39c12; /* Darker golden color on hover */
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Keyframe animation for the fade-in effect */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

@@ -1,31 +1,52 @@
-import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { GameContext } from "../context/GameContext"; // Import Context
 
-const riddles = {
-    1: { question: "I speak without a mouth and hear without ears. I have nobody, but I come alive with the wind. What am I?", answer: "echo" },
-    2: { question: "The more of me you take, the more you leave behind. What am I?", answer: "footsteps" },
-    3: { question: "I have keys but open no locks. I have a space but no room. You can enter, but you can't go outside. What am I?", answer: "keyboard" },
-    4: { question: "What has to be broken before you can use it?", answer: "egg" },
-    5: { question: "The more you take, the more you leave behind. What am I?", answer: "footsteps" },
-    6: { question: "What comes once in a minute, twice in a moment, but never in a thousand years?", answer: "m" },
-    7: { question: "I am always hungry, I must always be fed. The finger I touch will soon turn red. What am I?", answer: "fire" },
-    8: { question: "The more you remove from me, the bigger I get. What am I?", answer: "hole" },
-    9: { question: "What has an endless supply of letters but starts empty?", answer: "mailbox" },
-    10: { question: "I fly without wings. I cry without eyes. Wherever I go, darkness follows me. What am I?", answer: "cloud" }
-};
-
-const RiddlePage = ({ unlockNextLevel }) => {
+const RiddlePage = () => {
+  const { powerUps, setPowerUps } = useContext(GameContext); // ✅ Ensure increasePowerUps is Included
   const { level } = useParams();
   const navigate = useNavigate();
   const [userAnswer, setUserAnswer] = useState("");
+  const [showCluePopup, setShowCluePopup] = useState(false);
+  const [clueIndex, setClueIndex] = useState(0);
+
+  const riddles = {
+    1: { 
+      question: "I am the intersection of what you love, what you are good at, what the world needs, and what you can be paid for. What am I?", 
+      answers: ["ikigai"], 
+      clues: ["I’m a Japanese concept that guides people to find their life’s purpose.", 
+              "Sphoorthy often talks about me as the sweet spot of passion, mission, and profession."] 
+    },
+    2: { 
+      question: "I’m Asokan’s guiding principle, urging you to take control of your future. What am I?", 
+      answers: ["destiny"], 
+      clues: ["Think about how a captain controls the ship, even when the sea is rough.", 
+              "I’m all about taking control and being responsible. Asokan says, ‘Take charge of your ___’."] 
+    },
+    3: { 
+      question: "I’m what helps you debug that tricky segmentation fault or optimize your code when it runs too slow. What am I?", 
+      answers: ["persistence"], 
+      clues: ["You rely on me when you don’t get the right answer the first time but keep testing different possibilities.", 
+              "Anshul always reminds us in every DSA session that I am the key to mastering problem-solving, even when we struggle with tough problems."] 
+    }
+  };
   const riddle = riddles[level];
 
   const checkAnswer = () => {
-    if (userAnswer.toLowerCase() === riddle.answer) {
-      unlockNextLevel(parseInt(level) + 1);
+    if (riddle.answers.includes(userAnswer.toLowerCase())) {
       navigate(`/level-complete/${level}`);
     } else {
       alert("Wrong answer! Try again.");
+    }
+  };
+
+  const useClue = () => {
+    if (powerUps > 0 && clueIndex < 2) {
+      setPowerUps(powerUps - 1); 
+      setShowCluePopup(true);
+      setClueIndex(clueIndex + 1);
+    } else {
+      alert(clueIndex >= 2 ? "Both clues used!" : "No power-ups left!");
     }
   };
 
@@ -33,24 +54,53 @@ const RiddlePage = ({ unlockNextLevel }) => {
     <div style={styles.container}>
       <h1>Level {level} Riddle</h1>
       <p>{riddle.question}</p>
-      <input
-        type="text"
-        value={userAnswer}
-        onChange={(e) => setUserAnswer(e.target.value)}
-        placeholder="Enter your answer"
-        style={styles.input}
-      />
+      <p><strong>Power-ups:</strong> {powerUps}</p>
+
+      <input type="text" value={userAnswer} onChange={(e) => setUserAnswer(e.target.value)} placeholder="Enter your answer" style={styles.input} />
       <button onClick={checkAnswer} style={styles.button}>Submit</button>
+      
+      <button onClick={useClue} style={{ ...styles.clueButton, opacity: (powerUps > 0 && clueIndex < 2) ? 1 : 0.5 }} disabled={powerUps <= 0 || clueIndex >= 2}>
+        See Clue ({2 - clueIndex} left)
+      </button>
+
+      <button onClick={() => navigate("/mini-games-menu")} style={styles.miniGamesButton}>Mini-Games</button>
       <button onClick={() => navigate("/levels-page")} style={styles.backButton}>Back to Levels</button>
+
+      {showCluePopup && (
+        <div style={styles.popupOverlay}>
+          <div style={styles.popup}>
+            <h3>Clue {clueIndex}</h3>
+            <p>{riddle.clues[clueIndex - 1]}</p>
+            <button onClick={() => setShowCluePopup(false)} style={styles.closeButton}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
+
 const styles = {
-  container: { textAlign: 'center', marginTop: '50px' },
-  input: { marginTop: '10px', padding: '10px', fontSize: '16px' },
-  button: { margin: '10px', padding: '10px 20px', fontSize: '16px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' },
-  backButton: { marginTop: '10px', padding: '10px 20px', fontSize: '16px', backgroundColor: '#ccc', color: 'black', border: 'none', borderRadius: '5px', cursor: 'pointer' },
+  container: { textAlign: "center", marginTop: "50px" },
+  input: { marginTop: "10px", padding: "10px", fontSize: "16px" },
+  button: { margin: "10px", padding: "10px 20px", fontSize: "16px", backgroundColor: "#4CAF50", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" },
+  clueButton: { margin: "10px", padding: "10px 20px", fontSize: "16px", backgroundColor: "#FF5722", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" },
+  miniGamesButton: { margin: "10px", padding: "10px 20px", fontSize: "16px", backgroundColor: "#FF9800", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" },
+  backButton: { marginTop: "10px", padding: "10px 20px", fontSize: "16px", backgroundColor: "#ccc", color: "black", border: "none", borderRadius: "5px", cursor: "pointer" },
+
+  // Popup Styles
+  popupOverlay: {
+    position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", display: "flex", justifyContent: "center", alignItems: "center"
+  },
+  popup: {
+    backgroundColor: "#fff", padding: "20px", borderRadius: "10px", boxShadow: "0px 4px 10px rgba(0,0,0,0.2)",
+    textAlign: "center", maxWidth: "300px"
+  },
+  closeButton: {
+    marginTop: "10px", padding: "10px 20px", fontSize: "16px", backgroundColor: "#FF5722",
+    color: "white", border: "none", borderRadius: "5px", cursor: "pointer"
+  }
 };
 
 export default RiddlePage;

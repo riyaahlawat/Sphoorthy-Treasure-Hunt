@@ -1,75 +1,226 @@
-/* StartPage.css */
-
-/* Full-screen background with a gradient purple theme */
 .start-page-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background: linear-gradient(to right, #8e44ad, #9b59b6);  /* Gradient from dark to light purple */
-    color: white;
-    font-family: 'Montserrat', sans-serif;
-    overflow: hidden;
-    text-align: center;
+  position: relative;
+  height: 100vh;
+  background-image: url('../../public/images/wallpaper1.jpg'); /* Corrected path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  padding: 0 20px; /* Added padding to prevent content from touching edges */
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(101, 90, 35, 0.7);
+  z-index: 1;
+}
+
+.hero-container {
+  position: relative;
+  z-index: 2;
+  background-color: #3b2200;
+  padding: 40px;
+  border-radius: 20px;
+  max-width: 750px;
+  text-align: center;
+  color: #fff7d4;
+  box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.5);
+  border: 4px solid rgb(255, 170, 74);
+  margin: 20px;
+}
+
+.hero-container p {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.welcome-message {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: rgb(255, 198, 27);
+  text-shadow: 
+    -2px -2px 0 rgba(0, 0, 0, 0.9),  
+     2px -2px 0 rgba(0, 0, 0, 0.9),  
+    -2px  2px 0 rgba(0, 0, 0, 0.9),  
+     2px  2px 0 rgba(0, 0, 0, 0.9);
+}
+
+.glowing-text {
+  font-size: 1.2rem;
+  font-weight: normal;
+  color: #ffffff;
+  text-shadow: 0px 0px 10px #ffec7e;
+  margin-top: 20px;
+  font-style: italic;
+}
+
+.go-button {
+  padding: 12px 25px;
+  background-color: #ffd324;
+  border: none;
+  color: rgb(0, 0, 0);
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s ease-in-out;
+}
+
+.go-button:hover {
+  background-color: #634402;
+  transform: scale(1.05);
+  color: #ffd324;
+  border: 1px solid white;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .hero-container {
+    max-width: 90%;
+    padding: 30px;
+    margin: 10% auto;
   }
-  
-  /* Dark overlay for readability */
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);  /* Semi-transparent overlay */
-    z-index: 1;
-  }
-  
-  /* Styling for the welcome message with shadow and animation */
+
   .welcome-message {
-    font-size: 4rem;
-    margin-bottom: 30px;
-    text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
-    letter-spacing: 5px;
-    animation: fadeIn 2s ease-out; /* Fade-in effect */
-    padding: 20px;
-    border: 4px solid #fff; /* White border around the box */
-    border-radius: 15px; /* Rounded corners */
-    background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent background inside the box */
-    display: inline-block; /* Make the box fit around the text */
-    z-index: 2;
+    font-size: 1.8rem;
   }
-  
-  /* Style for the button with hover effects */
+
+  .hero-container p {
+    font-size: 0.9rem;
+  }
+
+  .glowing-text {
+    font-size: 1rem;
+  }
+
   .go-button {
-    background-color: #f1c40f; /* Golden color for the adventure theme */
-    color: #2c3e50;
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-container {
+    padding: 25px;
+    max-width: 95%;
+  }
+
+  .welcome-message {
     font-size: 1.5rem;
-    padding: 20px 40px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-    z-index: 2;
   }
-  
-  .go-button:hover {
-    background-color: #f39c12; /* Darker golden color on hover */
-    transform: scale(1.1);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+
+  .hero-container p {
+    font-size: 0.85rem;
   }
-  
-  /* Keyframe animation for the fade-in effect */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(50px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+
+  .glowing-text {
+    font-size: 0.9rem;
   }
-  
+
+  .go-button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+.map-image {
+  position: absolute;
+  top: -3.5vw;  /* Adjust relative to screen width */
+  left: -7vw;
+  width: 20vw;  /* Responsive width */
+  max-width: 160px;  /* Prevent excessive scaling */
+  height: auto;
+  z-index: 3;
+}
+
+.treasure-box {
+  position: absolute;
+  bottom: -3vw;
+  right: -7vw;
+  width: 20vw;
+  max-width: 160px;
+  height: auto;
+  z-index: 3;
+}
+
+/* For Medium Screens (Tablets: 11-13 inch) */
+@media (max-width: 1024px) {
+  .map-image {
+    top: -5vw;
+    left: -6vw;
+    width: 20vw;
+    max-width: 140px;
+  }
+
+  .treasure-box {
+    bottom: -3vw;
+    right: -6vw;
+    width: 20vw;
+    max-width: 160px;
+  }
+}
+
+/* For Smaller Screens (Mobile Devices) */
+@media (max-width: 768px) {
+  .map-image {
+    top: -9vw;
+    left: -5vw;
+    width: 22vw;
+    max-width: 120px;
+  }
+
+  .treasure-box {
+    bottom: -6vw;
+    right: -5vw;
+    width: 19vw;
+    max-width: 110px;
+  }
+}
+
+/* For Very Small Screens (Phones) */
+@media (max-width: 480px) {
+  .map-image {
+    top: -10vw;
+    left: -4vw;
+    width: 25vw;
+    max-width: 100px;
+  }
+
+  .treasure-box {
+    bottom: -8vw;
+    right: -4vw;
+    width: 22vw;
+    max-width: 90px;
+  }
+}
+
+.pt-serif-regular {
+  font-family: "PT Serif", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.pt-serif-bold {
+  font-family: "PT Serif", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.pt-serif-regular-italic {
+  font-family: "PT Serif", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.pt-serif-bold-italic {
+  font-family: "PT Serif", serif;
+  font-weight: 700;
+  font-style: italic;
+}

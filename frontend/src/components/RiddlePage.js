@@ -28,6 +28,48 @@ const RiddlePage = () => {
       answers: ["persistence"], 
       clues: ["You rely on me when you don’t get the right answer the first time but keep testing different possibilities.", 
               "Anshul always reminds us in every DSA session that I am the key to mastering problem-solving, even when we struggle with tough problems."] 
+    },
+    4: { 
+      question: "What must you accept to achieve greatness?", 
+      answers: ["failure"], 
+      clues: ["I start with 'F' and often feel like a setback.", 
+              "But, without me, success wouldn’t be possible."] 
+    },
+    5: { 
+      question: "In which company did Sphoorthy begin her career, stepping into the world of technology and innovation?", 
+      answers: ["ibm"], 
+      clues: ["It is an American multinational technology company known for its iconic 'Think' slogan.", 
+              "It starts with 'I' and has a legacy of over a century of transforming the tech landscape."] 
+    },
+    6: { 
+      question: "Whose presence in life can guide you, inspire you, and create wonders?", 
+      answers: ["mentor"], 
+      clues: ["This person shares wisdom and helps you grow. ", 
+              "Sphoorthy emphasizes the importance of this person in life, showing how they shape our journey."] 
+    },
+    7: { 
+      question: "What is a word that can mend situations and bring a sense of remorse when things don’t go as planned?", 
+      answers: ["sorry"], 
+      clues: ["It's often used to show empathy or regret after a mistake or misunderstanding.", 
+              "When you say this, Asokan remarks, 'My girlfriend doesn’t wear a saree.'"] 
+    },
+    8: { 
+      question: "What approach, often used to solve complex problems, involves breaking down tasks into smaller, manageable steps and applying algorithms?", 
+      answers: ["computational thinking"], 
+      clues: ["This concept is key in programming, problem-solving, and creating efficient solutions.", 
+              "There's a whole session on this, taught by Anshul, that focuses on how to approach problems systematically."] 
+    },
+    9: { 
+      question: "What is the practice that ensures your work is clear, understandable, and accessible for both current and future developers?", 
+      answers: ["documentation"], 
+      clues: ["You need this always, whether you're developing a project or learning a new framework or language.", 
+              "Aruvi and Asokan be like, 'Read the _________.'"] 
+    },
+    10: { 
+      question: "It's a flavorful and aromatic dish often made with rice, spices, and meat or vegetables.", 
+      answers: ["biryani"], 
+      clues: ["A well-known Hyderabadi dish, often enjoyed with raita or mirchi ka salan.", 
+              "Kunisha's favorite dish."] 
     }
   };
   const riddle = riddles[level];

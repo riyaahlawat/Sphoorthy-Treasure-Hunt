@@ -8,8 +8,9 @@ export const GameProvider = ({ children }) => {
   const [unlockedLevels, setUnlockedLevels] = useState([1]); // Default Level 1 unlocked
   const [solvedLevels, setSolvedLevels] = useState([]);
   const [powerUps, setPowerUps] = useState(0);
+  const [answeredQuestions, setAnsweredQuestions] = useState([]);
 
-  //  Fetch user progress when username changes
+  // Fetch user progress when username changes
   useEffect(() => {
     if (!username) return;
 
@@ -25,15 +26,31 @@ export const GameProvider = ({ children }) => {
     };
 
     fetchUserProgress();
-  }, [username]); //  Runs every time username changes
+  }, [username]); // Runs every time username changes
 
-  //  Set username when user logs in
+  // Set username when user logs in
   const loginUser = (newUsername) => {
     localStorage.setItem("username", newUsername);
-    setUsername(newUsername); //  Triggers useEffect
+    setUsername(newUsername); // Triggers useEffect
   };
 
-  //  Unlock next level and update DB
+  // Update power ups and save to database
+  const updatePowerUps = async (newValue) => {
+    setPowerUps(newValue);
+    
+    if (username) {
+      try {
+        await axios.post("http://localhost:5000/api/users/update-powerups", {
+          username,
+          powerUps: newValue
+        });
+      } catch (error) {
+        console.error("Error updating powerups:", error);
+      }
+    }
+  };
+
+  // Unlock next level and update DB
   const unlockNextLevel = async (nextLevel) => {
     setUnlockedLevels((prevLevels) => {
       if (!Array.isArray(prevLevels)) prevLevels = [];
@@ -58,7 +75,19 @@ export const GameProvider = ({ children }) => {
   };
 
   return (
-    <GameContext.Provider value={{ username, unlockedLevels, solvedLevels, powerUps, unlockNextLevel, loginUser }}>
+    <GameContext.Provider 
+      value={{ 
+        username, 
+        unlockedLevels, 
+        solvedLevels, 
+        powerUps, 
+        setPowerUps: updatePowerUps, 
+        unlockNextLevel, 
+        loginUser,
+        answeredQuestions,
+        setAnsweredQuestions
+      }}
+    >
       {children}
     </GameContext.Provider>
   );

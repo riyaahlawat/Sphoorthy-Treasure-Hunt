@@ -1,25 +1,24 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { GameContext } from "../context/GameContext"; // Import Context
+import { GameContext } from "../context/GameContext";
 
 const LevelCompletePage = () => {
-  const { unlockNextLevel, unlockedLevels } = useContext(GameContext); // Use Unlock Function
+  const { unlockNextLevel, unlockedLevels } = useContext(GameContext);
   const { level } = useParams();
   const navigate = useNavigate();
   const nextLevel = parseInt(level) + 1;
 
   useEffect(() => {
     if (!unlockedLevels.includes(nextLevel)) {
-      unlockNextLevel(nextLevel); // Unlock Level on Load
-      updateProgress(nextLevel); // Call API to update in DB
+      unlockNextLevel(nextLevel);
+      updateProgress(nextLevel);
     }
   }, [nextLevel, unlockedLevels, unlockNextLevel]);
 
-  // Function to update backend
   const updateProgress = async (nextLevel) => {
     try {
-      const username = localStorage.getItem("username"); // Assuming username is stored
+      const username = localStorage.getItem("username");
       await axios.post("http://localhost:5000/api/users/update-progress", {
         username,
         nextLevel,
@@ -29,20 +28,92 @@ const LevelCompletePage = () => {
     }
   };
 
+  const handleProceed = () => {
+    navigate(`/riddle/${nextLevel}`);
+  };
+
   return (
     <div style={styles.container}>
-      <h1>Congratulations! 🎉</h1>
-      <p>You have completed Level {level}!</p>
-      <button onClick={() => navigate(`/riddle/${nextLevel}`)} style={styles.nextButton}>Go to Level {nextLevel}</button>
-      <button onClick={() => navigate("/levels-page")} style={styles.backButton}>Back to Levels</button>
+      <div style={styles.modal}>
+        <div style={styles.titleContainer}>
+          <span style={styles.emoji}>🎉</span>
+          <h1 style={styles.title}>Congratulations!</h1>
+          <span style={styles.emoji}>🎊</span>
+        </div>
+        <p style={styles.message}>
+          <span style={styles.trophy}>🏆</span> You have successfully moved to the next level! <span style={styles.trophy}>🏆</span>
+        </p>
+        <button onClick={handleProceed} style={styles.proceedButton}>
+          <span style={styles.buttonText}>🎯 Proceed</span>
+        </button>
+      </div>
     </div>
   );
 };
 
 const styles = {
-  container: { textAlign: "center", marginTop: "50px" },
-  nextButton: { margin: "10px", padding: "10px 20px", fontSize: "16px", backgroundColor: "#4CAF50", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" },
-  backButton: { marginTop: "10px", padding: "10px 20px", fontSize: "16px", backgroundColor: "#ccc", color: "black", border: "none", borderRadius: "5px", cursor: "pointer" },
+  container: {
+    minHeight: "100vh",
+    width: "100%",
+    backgroundImage: "url('/images/wallpaper1.jpg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "20px",
+    fontFamily: "'Times New Roman', serif",
+  },
+  modal: {
+    backgroundColor: "rgba(30, 30, 30, 0.9)",
+    padding: "30px 40px",
+    borderRadius: "8px",
+    textAlign: "center",
+    maxWidth: "600px",
+    width: "100%",
+    boxShadow: "0 0 20px rgba(0, 0, 0, 0.5)",
+    border: "1px solid rgba(255, 215, 0, 0.3)",
+  },
+  titleContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: "20px",
+  },
+  emoji: {
+    fontSize: "24px",
+    marginLeft: "10px",
+    marginRight: "10px",
+  },
+  title: {
+    color: "rgb(255, 215, 0)",
+    fontSize: "32px",
+    margin: 0,
+    fontWeight: "bold",
+    fontFamily: "'Times New Roman', serif",
+  },
+  message: {
+    color: "rgb(255, 215, 0)",
+    fontSize: "18px",
+    margin: "20px 0 30px 0",
+  },
+  trophy: {
+    fontSize: "18px",
+  },
+  proceedButton: {
+    backgroundColor: "rgb(255, 215, 0)",
+    border: "none",
+    padding: "10px 30px",
+    borderRadius: "4px",
+    cursor: "pointer",
+    boxShadow: "0 0 10px rgba(255, 215, 0, 0.5)",
+    transition: "all 0.3s ease",
+  },
+  buttonText: {
+    color: "black",
+    fontSize: "16px",
+    fontWeight: "bold",
+  },
 };
 
 export default LevelCompletePage;

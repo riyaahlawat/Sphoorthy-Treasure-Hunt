@@ -1,34 +1,37 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GameContext } from "../context/GameContext"; // Import Context
+import { GameContext } from "../context/GameContext";
 
 const LevelsPage = () => {
-  const { unlockedLevels } = useContext(GameContext); // ✅ Get unlocked levels from Context
+  const { unlockedLevels } = useContext(GameContext);
   const navigate = useNavigate();
-  const [levels, setLevels] = useState([]);
+  const [levels, setLevels] = useState([1]); // Initialize with level 1 unlocked
 
-  // ✅ Ensure Levels Page Re-renders when Unlocked Levels Update
   useEffect(() => {
-    setLevels(unlockedLevels);
+    // Initialize with level 1 if no levels are unlocked
+    setLevels(unlockedLevels?.length ? unlockedLevels : [1]);
   }, [unlockedLevels]);
 
   const handleLevelClick = (level) => {
-    if (levels.includes(level)) {
+    // Check if it's level 1 (always accessible) or if the level is unlocked
+    if (level === 1 || levels.includes(level)) {
       navigate(`/riddle/${level}`);
     }
   };
 
   const renderLevelButton = (level) => {
-    const isUnlocked = levels.includes(level);
+    // Level 1 is always unlocked, other levels depend on unlocked state
+    const isUnlocked = level === 1 || levels.includes(level);
+    
     return (
       <button
         key={level}
         style={{
           ...styles.levelButton,
-          backgroundColor: isUnlocked ? "#4CAF50" : "#ccc",
+          opacity: isUnlocked ? 1 : 0.6,
           cursor: isUnlocked ? "pointer" : "not-allowed",
         }}
-        onClick={() => isUnlocked && handleLevelClick(level)}
+        onClick={() => handleLevelClick(level)}
         disabled={!isUnlocked}
       >
         Level {level}
@@ -38,8 +41,8 @@ const LevelsPage = () => {
 
   return (
     <div style={styles.container}>
-      <h1>Levels Page</h1>
-      <div style={styles.levelsContainer}>
+      <h1 style={styles.title}>LEVELS</h1>
+      <div style={styles.levelsGrid}>
         {Array.from({ length: 10 }, (_, index) => renderLevelButton(index + 1))}
       </div>
     </div>
@@ -47,19 +50,45 @@ const LevelsPage = () => {
 };
 
 const styles = {
-  container: { textAlign: "center", marginTop: "50px" },
-  levelsContainer: {
+  container: {
+    minHeight: "100vh",
+    backgroundImage: "url('/images/wallpaper1.jpg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "40px 20px",
+  },
+  title: {
+    fontSize: "2.5rem",
+    color: "#FFD700",
+    marginBottom: "40px",
+    textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
+  },
+  levelsGrid: {
     display: "grid",
     gridTemplateColumns: "repeat(5, 1fr)",
     gap: "20px",
-    marginTop: "30px",
+    maxWidth: "1000px",
+    width: "100%",
+    padding: "20px",
   },
   levelButton: {
     padding: "20px",
-    fontSize: "18px",
-    borderRadius: "8px",
-    border: "none",
+    fontSize: "1.2rem",
+    borderRadius: "10px",
+    backgroundColor: "rgba(139, 69, 19, 0.8)",
+    border: "2px solid #FFD700",
     color: "white",
+    fontWeight: "bold",
+    transition: "transform 0.2s ease",
+    textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
+    boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+    "&:hover": {
+      transform: "scale(1.05)",
+    },
   },
 };
 

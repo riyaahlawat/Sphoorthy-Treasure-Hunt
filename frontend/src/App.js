@@ -10,6 +10,7 @@ import RiddlePage from "./components/RiddlePage";
 import MiniGamesMenuPage from "./components/MiniGamesMenuPage";
 import MiniGameMath from "./components/MiniGameMath";
 import DSAgame from "./components/minigames/DSAgame";
+import Bitwisegame from "./components/minigames/Bitwisegame";
 
 
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/mini-games-menu" element={<MiniGamesMenuPage />} />
           <Route path="/mini-game/math-challenge" element={<MiniGameMath />} />
           <Route path="/mini-game/dsa-game" element={<DSAgame />} />
+          <Route path="/mini-game/bitwise-game" element={<Bitwisegame />} />
           <Route path="/" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>

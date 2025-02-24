@@ -35,6 +35,12 @@ const MiniGamesMenuPage = () => {
           >
             DSA Challenge
           </button>
+          <button 
+            onClick={() => navigate(`/mini-game/bitwise-game?returnTo=${returnLevel}`)} 
+            style={styles.gameButton}
+          >
+            Treasure of Bitwise Logic Challenge
+          </button>
         </div>
         
         <button 

@@ -84,7 +84,8 @@ const RiddlePage = () => {
       answers: ["documentation"], 
       clues: [
         "You need this always, whether you're developing a project or learning a new framework or language.", 
-        "Aruvi and Asokan be like, 'Read the _________.'"] 
+        "Aruvi and Asokan be like, 'Read the _________.'"
+      ] 
     },
     10: { 
       question: "It's a flavorful and aromatic dish often made with rice, spices, and meat or vegetables.", 
@@ -278,30 +279,28 @@ const RiddlePage = () => {
 const styles = {
   container: {
     minHeight: "100vh",
-    backgroundImage: "url('/images/wallpaper1.jpg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
+    backgroundColor: "#003F66", // Dark Blue
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     padding: "20px",
   },
   riddleCard: {
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    backgroundColor: "#1C1C1C", // Black
     padding: "40px",
     borderRadius: "15px",
     maxWidth: "600px",
     width: "100%",
-    border: "2px solid #FFD700",
+    border: "2px solid #FFC72C", // Yellow
   },
   title: {
-    color: "#FFD700",
+    color: "#FFC72C", // Yellow
     fontSize: "2rem",
     marginBottom: "20px",
     textAlign: "center",
   },
   question: {
-    color: "#FFD700",
+    color: "#FFC72C", // Yellow
     fontSize: "1.2rem",
     marginBottom: "30px",
     lineHeight: "1.6",
@@ -312,13 +311,13 @@ const styles = {
     padding: "12px",
     fontSize: "1rem",
     backgroundColor: "transparent",
-    border: "2px solid #FFD700",
+    border: "2px solid #FFC72C", // Yellow
     borderRadius: "5px",
-    color: "#FFD700",
+    color: "#FFC72C", // Yellow
     marginBottom: "20px",
   },
   submitButton: {
-    backgroundColor: "#FFD700",
+    backgroundColor: "#FFC72C", // Yellow
     color: "black",
     padding: "10px 30px",
     border: "none",
@@ -335,7 +334,7 @@ const styles = {
     marginBottom: "20px",
   },
   clueButton: {
-    backgroundColor: "#8B4513",
+    backgroundColor: "#004F6D", // Teal Blue
     color: "white",
     padding: "10px 20px",
     border: "none",
@@ -344,7 +343,7 @@ const styles = {
     flex: 1,
   },
   powerupButton: {
-    backgroundColor: "#006400",
+    backgroundColor: "#001EFF", // Royal Blue
     color: "white",
     padding: "10px 20px",
     border: "none",
@@ -353,7 +352,7 @@ const styles = {
     flex: 1,
   },
   backButton: {
-    backgroundColor: "#8B0000",
+    backgroundColor: "#8B0000", // Dark Red
     color: "white",
     padding: "10px 20px",
     border: "none",
@@ -362,7 +361,7 @@ const styles = {
     width: "100%",
   },
   clueText: {
-    color: "#FFD700",
+    color: "#FFC72C", // Yellow
     marginBottom: "10px",
     textAlign: "center",
   },
@@ -378,25 +377,25 @@ const styles = {
     alignItems: "center",
   },
   popup: {
-    backgroundColor: "#2F4F4F",
+    backgroundColor: "#1C1C1C", // Black
     padding: "20px",
     borderRadius: "10px",
-    border: "2px solid #FFD700",
-    color: "#FFD700",
+    border: "2px solid #FFC72C", // Yellow
+    color: "#FFC72C", // Yellow
     maxWidth: "400px",
     width: "90%",
     textAlign: "center",
   },
   clueTitle: {
-    color: "#FFD700",
+    color: "#FFC72C", // Yellow
     marginBottom: "15px",
   },
   clueContent: {
-    color: "#FFD700",
+    color: "#FFC72C", // Yellow
     marginBottom: "20px",
   },
   closeButton: {
-    backgroundColor: "#8B0000",
+    backgroundColor: "#8B0000", // Dark Red
     color: "white",
     padding: "8px 20px",
     border: "none",
@@ -416,22 +415,22 @@ const styles = {
     zIndex: 1000,
   },
   notificationPopup: {
-    backgroundColor: "#006400",
+    backgroundColor: "#004F6D", // Teal Blue
     padding: "15px",
     borderRadius: "10px",
-    border: "2px solid #FFD700",
-    color: "#FFD700",
+    border: "2px solid #FFC72C", // Yellow
+    color: "#FFC72C", // Yellow
     maxWidth: "300px",
     textAlign: "center",
     animation: "fadeInOut 3s forwards",
   },
   powerupTitle: {
-    color: "#FFD700",
+    color: "#FFC72C", // Yellow
     marginBottom: "10px",
     fontSize: "1.2rem",
   },
   powerupContent: {
-    color: "#FFD700",
+    color: "#FFC72C", // Yellow
     fontSize: "1rem",
     lineHeight: "1.4",
   }

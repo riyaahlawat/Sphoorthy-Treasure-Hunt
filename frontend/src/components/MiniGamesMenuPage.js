@@ -41,6 +41,13 @@ const MiniGamesMenuPage = () => {
           >
             Treasure of Bitwise Logic Challenge
           </button>
+
+          <button 
+            onClick={() => navigate(`/mini-game/loop-runner?returnTo=${returnLevel}`)} 
+            style={styles.gameButton}
+          >
+            Loop Runner
+          </button>
         </div>
         
         <button 

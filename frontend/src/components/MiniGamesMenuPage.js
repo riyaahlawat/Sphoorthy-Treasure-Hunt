@@ -48,6 +48,12 @@ const MiniGamesMenuPage = () => {
           >
             Loop Runner
           </button>
+          <button 
+            onClick={() => navigate(`/mini-game/sql-query?returnTo=${returnLevel}`)} 
+            style={styles.gameButton}
+          >
+            Debugging an SQL query
+          </button>
         </div>
         
         <button 

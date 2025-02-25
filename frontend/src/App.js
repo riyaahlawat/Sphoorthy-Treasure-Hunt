@@ -12,6 +12,7 @@ import MiniGameMath from "./components/MiniGameMath";
 import DSAgame from "./components/minigames/DSAgame";
 import Bitwisegame from "./components/minigames/Bitwisegame";
 import LoopRunner from "./components/minigames/LoopRunner";
+import LoopRunner2 from "./components/minigames/LoopRunner2";
 import SQLgame from "./components/minigames/SQLgame"
 
 
@@ -31,6 +32,7 @@ function App() {
           <Route path="/mini-game/dsa-game" element={<DSAgame />} />
           <Route path="/mini-game/bitwise-game" element={<Bitwisegame />} />
           <Route path="/mini-game/loop-runner" element={<LoopRunner />} />
+          <Route path="/mini-game/loop-runner2" element={<LoopRunner2 />} />
           <Route path="/mini-game/sql-query" element={<SQLgame />} />
           <Route path="/" element={<LoginPage />} />
         </Routes>

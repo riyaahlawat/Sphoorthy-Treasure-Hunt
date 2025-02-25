@@ -52,10 +52,7 @@ const LevelsPage = () => {
 const styles = {
   container: {
     minHeight: "100vh",
-    backgroundImage: "url('/images/wallpaper1.jpg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
+    backgroundColor: "#003F66", // Dark Blue
     display: "flex",
     flexDirection: "column",
     alignItems: "center",

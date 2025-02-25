@@ -49,6 +49,13 @@ const MiniGamesMenuPage = () => {
             Loop Runner
           </button>
           <button 
+            onClick={() => navigate(`/mini-game/loop-runner2?returnTo=${returnLevel}`)} 
+            style={styles.gameButton}
+          >
+            Loop Runner 2
+          </button>
+              
+          <button 
             onClick={() => navigate(`/mini-game/sql-query?returnTo=${returnLevel}`)} 
             style={styles.gameButton}
           >

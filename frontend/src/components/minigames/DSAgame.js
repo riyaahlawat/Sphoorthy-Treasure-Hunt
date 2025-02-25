@@ -163,13 +163,12 @@ const DSAGame = () => {
 const styles = {
   container: {
     minHeight: "100vh",
-    backgroundImage: "url('/images/wallpaper1.jpg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
+    backgroundColor: "#003F66",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     padding: "20px",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   gameBox: {
     backgroundColor: "rgba(0, 0, 0, 0.8)",
@@ -184,21 +183,25 @@ const styles = {
     fontSize: "2rem",
     marginBottom: "20px",
     textAlign: "center",
+    fontFamily: "'Press Start 2P', cursive",
   },
   story: {
     color: "#FFD700",
     fontSize: "1.1rem",
     marginBottom: "20px",
     lineHeight: "1.6",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   question: {
     color: "#FFD700",
     fontSize: "1.2rem",
     marginBottom: "20px",
     display: "block",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   form: {
     marginTop: "20px",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   input: {
     width: "100%",
@@ -209,11 +212,13 @@ const styles = {
     borderRadius: "5px",
     color: "#FFD700",
     marginBottom: "20px",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   buttonContainer: {
     display: "flex",
     justifyContent: "space-between",
     gap: "15px",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   submitButton: {
     backgroundColor: "#FFD700",
@@ -224,6 +229,7 @@ const styles = {
     fontSize: "1.1rem",
     cursor: "pointer",
     flex: 1,
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   backButton: {
     backgroundColor: "#8B0000",
@@ -233,12 +239,14 @@ const styles = {
     borderRadius: "5px",
     cursor: "pointer",
     flex: 1,
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   feedback: {
     color: "#FFD700",
     marginTop: "20px",
     fontSize: "1.2rem",
     textAlign: "center",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   overlay: {
     position: "fixed",
@@ -250,6 +258,7 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   popup: {
     backgroundColor: "#2F4F4F",
@@ -260,15 +269,18 @@ const styles = {
     maxWidth: "400px",
     width: "90%",
     textAlign: "center",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   popupTitle: {
     color: "#FFD700",
     marginBottom: "15px",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   popupContent: {
     color: "#FFD700",
     marginBottom: "20px",
     lineHeight: "1.6",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
 };
 

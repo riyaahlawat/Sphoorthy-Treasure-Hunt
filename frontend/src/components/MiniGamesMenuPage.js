@@ -41,6 +41,12 @@ const MiniGamesMenuPage = () => {
           >
             Treasure of Bitwise Logic Challenge
           </button>
+          <button 
+            onClick={() => navigate(`/mini-game/sql-query?returnTo=${returnLevel}`)} 
+            style={styles.gameButton}
+          >
+            Debugging an SQL query
+          </button>
         </div>
         
         <button 

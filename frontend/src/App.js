@@ -11,6 +11,7 @@ import MiniGamesMenuPage from "./components/MiniGamesMenuPage";
 import MiniGameMath from "./components/MiniGameMath";
 import DSAgame from "./components/minigames/DSAgame";
 import Bitwisegame from "./components/minigames/Bitwisegame";
+import SQLgame from "./components/minigames/SQLgame"
 
 
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/mini-game/math-challenge" element={<MiniGameMath />} />
           <Route path="/mini-game/dsa-game" element={<DSAgame />} />
           <Route path="/mini-game/bitwise-game" element={<Bitwisegame />} />
+          <Route path="/mini-game/sql-query" element={<SQLgame />} />
           <Route path="/" element={<LoginPage />} />
         </Routes>
       </BrowserRouter>

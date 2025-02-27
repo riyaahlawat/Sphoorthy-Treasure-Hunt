@@ -66,27 +66,30 @@ const styles = {
   },
   levelsGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(5, 1fr)",
+    gridTemplateColumns: "repeat(4, 1fr)", // Reduce from 5 to 3 columns
     gap: "20px",
-    maxWidth: "1000px",
+    maxWidth: "900px",
     width: "100%",
     padding: "20px",
-  },
-  levelButton: {
-    padding: "20px",
+},
+levelButton: {
+    padding: "20px 20px", // Increase width by adding more padding
     fontSize: "1.2rem",
-    borderRadius: "10px",
+    minWidth: "180px", // Ensure buttons are wider
+    borderRadius: "12px",
     backgroundColor: "rgba(139, 69, 19, 0.8)",
     border: "2px solid #FFD700",
     color: "white",
     fontWeight: "bold",
+    textAlign: "center",
     transition: "transform 0.2s ease",
     textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
     boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
     "&:hover": {
       transform: "scale(1.05)",
     },
-  },
+},
+
 };
 
 export default LevelsPage;

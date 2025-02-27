@@ -203,6 +203,7 @@ const BitwiseGame = () => {
 const styles = {
   container: {
     minHeight: "100vh",
+    backgroundImage: "url('/images/wallpaper1.jpg')",
     backgroundColor: "#003F66",
     display: "flex",
     justifyContent: "center",

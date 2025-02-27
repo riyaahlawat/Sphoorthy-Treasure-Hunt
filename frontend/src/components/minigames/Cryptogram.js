@@ -4,128 +4,92 @@ import { GameContext } from "../../context/GameContext";
 
 const questions = [
   {
-    story:
-      "FROM users SELECT name, email WHERE active = 1;\n ",
-    question: "Players must fix the query to retrieve the correct user data.",
-    answer: "SELECT name, email FROM users WHERE active = 1;",
+    title: "Simple Shift Cipher",
+    encrypted: "BQQMF",
+    decrypted: "APPLE",
+    prompt: "What is the encryption of MANGO?",
+    answer: "NBPHQ",
+  },
+  {
+    title: "Reverse Alphabet Cipher",
+    encrypted: "GSRH",
+    decrypted: "THIS",
+    prompt: "What is the encryption of HIVVZI?",
+    answer: "SECRET",
   },
 ];
 
-const SQLgame = () => {
-  const { powerUps, setPowerUps, answeredQuestions, setAnsweredQuestions } = useContext(GameContext);
+const CryptogramGame = () => {
+  const { powerUps, setPowerUps, answeredQuestions, setAnsweredQuestions } =
+    useContext(GameContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const [userAnswer, setUserAnswer] = useState("");
   const [feedback, setFeedback] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
-  
-  // Choose a question that hasn't been answered yet
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
-  
+  const [userAnswer, setUserAnswer] = useState("");
+
   useEffect(() => {
-    // Get return level from query params if available
-    const params = new URLSearchParams(location.search);
-    const returnToLevel = params.get("returnTo") || "1";
-    
-    // Ensure answeredQuestions is an array
-    const safeAnsweredQuestions = Array.isArray(answeredQuestions) ? answeredQuestions : [];
-    
-    // Filter out questions that have already been answered
-    const availableQuestions = questions.filter((_, index) => 
-      !safeAnsweredQuestions.includes(index)
+    const safeAnsweredQuestions = Array.isArray(answeredQuestions)
+      ? answeredQuestions
+      : [];
+    const availableQuestions = questions.filter(
+      (_, index) => !safeAnsweredQuestions.includes(index)
     );
-    
+
     if (availableQuestions.length === 0) {
-      // If all questions have been answered, reset the answered questions
-      if (setAnsweredQuestions) {
-        setAnsweredQuestions([]);
-      }
+      if (setAnsweredQuestions) setAnsweredQuestions([]);
       setCurrentQuestionIndex(Math.floor(Math.random() * questions.length));
     } else {
-      // Choose a random question from the available ones
       const randomIndex = Math.floor(Math.random() * availableQuestions.length);
       const originalIndex = questions.indexOf(availableQuestions[randomIndex]);
       setCurrentQuestionIndex(originalIndex);
     }
   }, [answeredQuestions, setAnsweredQuestions, location.search]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    if (currentQuestionIndex === null) return;
-    
-    if (
-      userAnswer.trim().toLowerCase() ===
-      questions[currentQuestionIndex].answer.toLowerCase()
-    ) {
-      // Ensure answeredQuestions is an array before updating
-      const safeAnsweredQuestions = Array.isArray(answeredQuestions) ? answeredQuestions : [];
-      
-      // Add the current question to answered questions
-      if (setAnsweredQuestions) {
-        setAnsweredQuestions([...safeAnsweredQuestions, currentQuestionIndex]);
-      }
-      
-      // Increment powerups
-      const newPowerUps = (powerUps || 0) + 1;
-      if (setPowerUps) {
-        setPowerUps(newPowerUps);
-      }
-      
+  const handleSubmit = () => {
+    if (!userAnswer) return;
+    if (userAnswer.toUpperCase() === questions[currentQuestionIndex].answer) {
+      if (setAnsweredQuestions)
+        setAnsweredQuestions([...answeredQuestions, currentQuestionIndex]);
+      if (setPowerUps) setPowerUps((powerUps || 0) + 1);
       setFeedback("Correct! You earned a power-up!");
       setShowSuccess(true);
-      
-      // Get return level from URL params
-      const params = new URLSearchParams(location.search);
-      const returnToLevel = params.get("returnTo") || "1";
-      
-      setTimeout(() => {
-        // Navigate back to the specific riddle level
-        navigate(`/riddle/${returnToLevel}`);
-      }, 2000);
+      setTimeout(() => navigate("/riddle/1"), 2000);
     } else {
       setFeedback("Incorrect. Try again!");
     }
   };
 
-  const handleBack = () => {
-    navigate("/mini-games-menu");
-  };
+  const handleBack = () => navigate("/mini-games-menu");
 
-  if (currentQuestionIndex === null) {
-    return <div style={styles.container}>Loading...</div>;
-  }
+  if (currentQuestionIndex === null) return <div>Loading...</div>;
+  const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className="sql-game-container" style={styles.container}>
+    <div className="cryptogram-game-container" style={styles.container}>
       <div className="game-box" style={styles.gameBox}>
-        <h2 style={styles.title}>SQL Challenge</h2>
-        <p style={styles.story}>{questions[currentQuestionIndex].story}</p>
-        <strong style={styles.question}>
-          Question: {questions[currentQuestionIndex].question}
-        </strong>
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <input
-            type="text"
-            placeholder="Enter your answer here..."
-            value={userAnswer}
-            onChange={(e) => setUserAnswer(e.target.value)}
-            required
-            style={styles.input}
-          />
-          <div style={styles.buttonContainer}>
-            <button type="submit" style={styles.submitButton}>
-              Submit
-            </button>
-            <button type="button" onClick={handleBack} style={styles.backButton}>
-              Back
-            </button>
-          </div>
-        </form>
+        <h3 style={styles.title}>{currentQuestion.title}</h3>
+        <p style={styles.question}><b>Encrypted:</b> {currentQuestion.encrypted}</p>
+        <p style={styles.question}><b>Decrypted:</b> {currentQuestion.decrypted}</p>
+        <p style={styles.question}>{currentQuestion.prompt}</p>
+        <input
+          type="text"
+          value={userAnswer}
+          onChange={(e) => setUserAnswer(e.target.value)}
+          placeholder="Enter your answer"
+          style={styles.input}
+        />
+        <div style={styles.buttonContainer}>
+          <button onClick={handleSubmit} style={styles.submitButton}>
+            Submit
+          </button>
+          <button onClick={handleBack} style={styles.backButton}>
+            Back
+          </button>
+        </div>
         {feedback && <p style={styles.feedback}>{feedback}</p>}
       </div>
-      
-      {/* Success popup */}
       {showSuccess && (
         <div style={styles.overlay}>
           <div style={styles.popup}>
@@ -133,7 +97,7 @@ const SQLgame = () => {
             <p style={styles.popupContent}>
               You've earned a power-up!
               <br />
-              Redirecting to the riddle page...
+              Redirecting...
             </p>
           </div>
         </div>
@@ -145,11 +109,10 @@ const SQLgame = () => {
 const styles = {
   container: {
     minHeight: "100vh",
-    backgroundImage: "url('/images/wallpaper1.jpg')",
     backgroundColor: "#003F66",
+    backgroundImage: "url('/images/wallpaper1.jpg')",
     display: "flex",
     justifyContent: "center",
-    
     alignItems: "center",
     padding: "20px",
   },
@@ -166,21 +129,21 @@ const styles = {
     fontSize: "2rem",
     marginBottom: "20px",
     textAlign: "center",
+    fontFamily: "'Press Start 2P', cursive",
   },
   story: {
     color: "#FFD700",
     fontSize: "1.1rem",
     marginBottom: "20px",
     lineHeight: "1.6",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   question: {
-    color: "#FFD700",
+    color: "#FFFF00", // Yellow for questions
     fontSize: "1.2rem",
     marginBottom: "20px",
     display: "block",
-  },
-  form: {
-    marginTop: "20px",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   input: {
     width: "100%",
@@ -191,11 +154,13 @@ const styles = {
     borderRadius: "5px",
     color: "#FFD700",
     marginBottom: "20px",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   buttonContainer: {
     display: "flex",
     justifyContent: "space-between",
     gap: "15px",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   submitButton: {
     backgroundColor: "#FFD700",
@@ -221,6 +186,7 @@ const styles = {
     marginTop: "20px",
     fontSize: "1.2rem",
     textAlign: "center",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   overlay: {
     position: "fixed",
@@ -232,6 +198,7 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   popup: {
     backgroundColor: "#2F4F4F",
@@ -242,16 +209,19 @@ const styles = {
     maxWidth: "400px",
     width: "90%",
     textAlign: "center",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   popupTitle: {
     color: "#FFD700",
     marginBottom: "15px",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
   popupContent: {
     color: "#FFD700",
     marginBottom: "20px",
     lineHeight: "1.6",
+    fontFamily: "'ADLaM Display', sans-serif",
   },
 };
 
-export default SQLgame;
+export default CryptogramGame;

@@ -8,59 +8,66 @@ const questions = [
       "Jake is waiting in line at a ticket counter. As more people arrive, they stand at the end of the line. The cashier serves the person who has been waiting the longest before moving on to the next.",
     question: "Which data structure follows this principle?",
     answer: "Queue",
+    options: ["Stack", "Queue", "Tree", "Graph"],
   },
   {
     story:
       "Emma is looking for a book in a massive library. Instead of searching randomly, she starts in the middle of a sorted catalog and decides whether to search the left or right half, repeating this process until she finds the book.",
     question: "Which algorithm is she using?",
     answer: "Binary Search",
+    options: ["Linear Search", "Binary Search", "Bubble Sort", "Quick Sort"],
   },
   {
     story:
       "Ethan is storing guest information at a hotel. Each guest has a unique reservation number, and Ethan needs to quickly look up details based on this number.",
     question: "Which data structure is ideal for Ethan's task?",
     answer: "Hash Table",
+    options: ["Array", "Linked List", "Hash Table", "Queue"],
   },
   {
     story:
       "Olivia is organizing a scavenger hunt. She starts from one spot, visits all the nearby locations first, then gradually moves outward to distant places, ensuring she doesn't miss any location.",
     question: "Which traversal algorithm does Olivia's hunt resemble?",
     answer: "Breadth-First Search",
+    options: [
+      "Depth-First Search",
+      "Breadth-First Search",
+      "Inorder Traversal",
+      "Postorder Traversal",
+    ],
   },
 ];
 
 const DSAGame = () => {
-  const { powerUps, setPowerUps, answeredQuestions, setAnsweredQuestions } = useContext(GameContext);
+  const { powerUps, setPowerUps, answeredQuestions, setAnsweredQuestions } =
+    useContext(GameContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const [userAnswer, setUserAnswer] = useState("");
+  const [selectedOption, setSelectedOption] = useState("");
   const [feedback, setFeedback] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
-  
+
   // Choose a question that hasn't been answered yet
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
-  
+
   useEffect(() => {
-    // Get return level from query params if available
     const params = new URLSearchParams(location.search);
     const returnToLevel = params.get("returnTo") || "1";
-    
-    // Ensure answeredQuestions is an array
-    const safeAnsweredQuestions = Array.isArray(answeredQuestions) ? answeredQuestions : [];
-    
-    // Filter out questions that have already been answered
-    const availableQuestions = questions.filter((_, index) => 
-      !safeAnsweredQuestions.includes(index)
+
+    const safeAnsweredQuestions = Array.isArray(answeredQuestions)
+      ? answeredQuestions
+      : [];
+
+    const availableQuestions = questions.filter(
+      (_, index) => !safeAnsweredQuestions.includes(index)
     );
-    
+
     if (availableQuestions.length === 0) {
-      // If all questions have been answered, reset the answered questions
       if (setAnsweredQuestions) {
         setAnsweredQuestions([]);
       }
       setCurrentQuestionIndex(Math.floor(Math.random() * questions.length));
     } else {
-      // Choose a random question from the available ones
       const randomIndex = Math.floor(Math.random() * availableQuestions.length);
       const originalIndex = questions.indexOf(availableQuestions[randomIndex]);
       setCurrentQuestionIndex(originalIndex);
@@ -69,36 +76,33 @@ const DSAGame = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (currentQuestionIndex === null) return;
-    
+
     if (
-      userAnswer.trim().toLowerCase() ===
+      selectedOption.toLowerCase() ===
       questions[currentQuestionIndex].answer.toLowerCase()
     ) {
-      // Ensure answeredQuestions is an array before updating
-      const safeAnsweredQuestions = Array.isArray(answeredQuestions) ? answeredQuestions : [];
-      
-      // Add the current question to answered questions
+      const safeAnsweredQuestions = Array.isArray(answeredQuestions)
+        ? answeredQuestions
+        : [];
+
       if (setAnsweredQuestions) {
         setAnsweredQuestions([...safeAnsweredQuestions, currentQuestionIndex]);
       }
-      
-      // Increment powerups
+
       const newPowerUps = (powerUps || 0) + 1;
       if (setPowerUps) {
         setPowerUps(newPowerUps);
       }
-      
+
       setFeedback("Correct! You earned a power-up!");
       setShowSuccess(true);
-      
-      // Get return level from URL params
+
       const params = new URLSearchParams(location.search);
       const returnToLevel = params.get("returnTo") || "1";
-      
+
       setTimeout(() => {
-        // Navigate back to the specific riddle level
         navigate(`/riddle/${returnToLevel}`);
       }, 2000);
     } else {
@@ -122,36 +126,63 @@ const DSAGame = () => {
         <strong style={styles.question}>
           Question: {questions[currentQuestionIndex].question}
         </strong>
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <input
-            type="text"
-            placeholder="Enter your answer here..."
-            value={userAnswer}
-            onChange={(e) => setUserAnswer(e.target.value)}
-            required
-            style={styles.input}
-          />
-          <div style={styles.buttonContainer}>
-            <button type="submit" style={styles.submitButton}>
-              Submit
-            </button>
-            <button type="button" onClick={handleBack} style={styles.backButton}>
-              Back
-            </button>
-          </div>
-        </form>
+
+        {/* Options */}
+        {questions[currentQuestionIndex].options.map((option, index) => (
+          <button
+            key={index}
+            style={{
+              backgroundColor:
+                selectedOption === option ? "#FFD700" : "transparent",
+              color: selectedOption === option ? "black" : "#FFD700",
+              width: "100%",
+              padding: "12px",
+              margin: "5px 0",
+              fontSize: "1rem",
+              border: "2px solid #FFD700",
+              borderRadius: "5px",
+              cursor: "pointer",
+              textAlign: "center",
+              fontWeight: "bold",
+              transition: "background-color 0.3s, color 0.3s",
+            }}
+            onMouseEnter={(e) => {
+              if (selectedOption !== option) {
+                e.target.style.backgroundColor = "#FFD700";
+                e.target.style.color = "black";
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (selectedOption !== option) {
+                e.target.style.backgroundColor = "transparent";
+                e.target.style.color = "#FFD700";
+              }
+            }}
+            onClick={() => setSelectedOption(option)}
+          >
+            {option}
+          </button>
+        ))}
+
+        <div style={styles.buttonContainer}>
+          <button type="submit" onClick={handleSubmit} style={styles.submitButton}>
+            Submit
+          </button>
+          <button type="button" onClick={handleBack} style={styles.backButton}>
+            Back
+          </button>
+        </div>
+
         {feedback && <p style={styles.feedback}>{feedback}</p>}
       </div>
-      
+
       {/* Success popup */}
       {showSuccess && (
         <div style={styles.overlay}>
           <div style={styles.popup}>
             <h3 style={styles.popupTitle}>Success!</h3>
             <p style={styles.popupContent}>
-              You've earned a power-up!
-              <br />
-              Redirecting to the riddle page...
+              You've earned a power-up! Redirecting...
             </p>
           </div>
         </div>
@@ -163,62 +194,100 @@ const DSAGame = () => {
 const styles = {
   container: {
     minHeight: "100vh",
+    backgroundImage: "url('/images/wallpaper1.jpg')",
     backgroundColor: "#003F66",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     padding: "20px",
-    fontFamily: "'ADLaM Display', sans-serif",
   },
   gameBox: {
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    backgroundColor: "rgba(0, 0, 0, 0.85)",
     padding: "40px",
     borderRadius: "15px",
     maxWidth: "600px",
     width: "100%",
     border: "2px solid #FFD700",
   },
-  title: {
+  header: {
     color: "#FFD700",
     fontSize: "2rem",
-    marginBottom: "20px",
     textAlign: "center",
-    fontFamily: "'Press Start 2P', cursive",
-  },
-  story: {
-    color: "#FFD700",
-    fontSize: "1.1rem",
     marginBottom: "20px",
-    lineHeight: "1.6",
-    fontFamily: "'ADLaM Display', sans-serif",
+  },
+  title: {
+    color: "#FFD700",
+    fontSize: "1.8rem",
+    marginBottom: "10px",
+    textAlign: "center",
   },
   question: {
     color: "#FFD700",
     fontSize: "1.2rem",
     marginBottom: "20px",
-    display: "block",
-    fontFamily: "'ADLaM Display', sans-serif",
+    textAlign: "center",
   },
-  form: {
-    marginTop: "20px",
-    fontFamily: "'ADLaM Display', sans-serif",
+  codeBox: {
+    backgroundColor: "#333",
+    padding: "15px",
+    borderRadius: "8px",
+    marginBottom: "20px",
+    overflowX: "auto",
   },
-  input: {
+  code: {
+    color: "#FFD700",
+    fontFamily: "monospace",
+    fontSize: "1rem",
+    whiteSpace: "pre-wrap",
+    margin: 0,
+  },
+  hintContainer: {
+    marginBottom: "20px",
+    textAlign: "center",
+  },
+  hintButton: {
+    backgroundColor: "#8B0000",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    padding: "8px 16px",
+    cursor: "pointer",
+    marginBottom: "10px",
+  },
+  hintText: {
+    color: "#FFD700",
+    fontSize: "1.1rem",
+    marginTop: "10px",
+  },
+  optionButton: {
     width: "100%",
     padding: "12px",
+    margin: "5px 0",
     fontSize: "1rem",
     backgroundColor: "transparent",
     border: "2px solid #FFD700",
     borderRadius: "5px",
+    cursor: "pointer",
+    textAlign: "center",
     color: "#FFD700",
-    marginBottom: "20px",
-    fontFamily: "'ADLaM Display', sans-serif",
+    fontWeight: "bold",
+    transition: "background-color 0.3s, color 0.3s",
+  },
+
+  optionButtonHover: {
+    backgroundColor: "#FFD700",
+    color: "black", // Ensure text remains visible
+  },
+
+  optionButtonSelected: {
+    backgroundColor: "#FFD700",
+    color: "black", // Ensure text remains visible
   },
   buttonContainer: {
     display: "flex",
     justifyContent: "space-between",
     gap: "15px",
-    fontFamily: "'ADLaM Display', sans-serif",
+    marginTop: "20px",
   },
   submitButton: {
     backgroundColor: "#FFD700",
@@ -229,7 +298,6 @@ const styles = {
     fontSize: "1.1rem",
     cursor: "pointer",
     flex: 1,
-    fontFamily: "'ADLaM Display', sans-serif",
   },
   backButton: {
     backgroundColor: "#8B0000",
@@ -239,14 +307,12 @@ const styles = {
     borderRadius: "5px",
     cursor: "pointer",
     flex: 1,
-    fontFamily: "'ADLaM Display', sans-serif",
   },
   feedback: {
     color: "#FFD700",
     marginTop: "20px",
     fontSize: "1.2rem",
     textAlign: "center",
-    fontFamily: "'ADLaM Display', sans-serif",
   },
   overlay: {
     position: "fixed",
@@ -258,7 +324,6 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    fontFamily: "'ADLaM Display', sans-serif",
   },
   popup: {
     backgroundColor: "#2F4F4F",
@@ -269,19 +334,22 @@ const styles = {
     maxWidth: "400px",
     width: "90%",
     textAlign: "center",
-    fontFamily: "'ADLaM Display', sans-serif",
   },
   popupTitle: {
     color: "#FFD700",
     marginBottom: "15px",
-    fontFamily: "'ADLaM Display', sans-serif",
   },
   popupContent: {
     color: "#FFD700",
     marginBottom: "20px",
     lineHeight: "1.6",
-    fontFamily: "'ADLaM Display', sans-serif",
   },
+  story: {
+    color: "#FFD700",
+    fontSize: "1.1rem",
+    marginBottom: "20px",
+  }
 };
 
 export default DSAGame;
+

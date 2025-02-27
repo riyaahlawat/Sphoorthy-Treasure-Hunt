@@ -23,10 +23,10 @@ const MiniGamesMenuPage = () => {
         
         <div style={styles.buttonsContainer}>
           <button 
-            onClick={() => navigate(`/mini-game/math-challenge?returnTo=${returnLevel}`)} 
+            onClick={() => navigate(`/mini-game/crypto?returnTo=${returnLevel}`)} 
             style={styles.gameButton}
           >
-            Math Challenge
+            Cryptogram Game
           </button>
           
           <button 
@@ -48,13 +48,6 @@ const MiniGamesMenuPage = () => {
           >
             Loop Runner
           </button>
-          <button 
-            onClick={() => navigate(`/mini-game/loop-runner2?returnTo=${returnLevel}`)} 
-            style={styles.gameButton}
-          >
-            Loop Runner 2
-          </button>
-              
           <button 
             onClick={() => navigate(`/mini-game/sql-query?returnTo=${returnLevel}`)} 
             style={styles.gameButton}
@@ -78,6 +71,7 @@ const styles = {
   container: {
     minHeight: "100vh",
     backgroundColor: "#003F66",
+    backgroundImage: "url('/images/wallpaper1.jpg')",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

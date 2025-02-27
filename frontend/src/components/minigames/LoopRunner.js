@@ -15,6 +15,16 @@ const questions = [
     question: "What will be the final value of sum_value?",
     answer: "15",
   },
+  {
+    code: `for (int i = 0; i < 5; i++) {\n    cout << i << " ";\n}`,
+    question: "How many times will this loop execute?",
+    answer: "5",
+  },
+  {
+    code: `int x = 2;\nint i = 0;\n\nwhile (i < 3) {\n    x += 2;\n    i++;\n}\n\ncout << x;`,
+    question: "What will be the final value of x after this loop runs?",
+    answer: "8",
+  },
   
 ];
 
@@ -154,8 +164,7 @@ const styles = {
   container: {
     minHeight: "100vh",
     backgroundImage: "url('/images/wallpaper1.jpg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
+    backgroundColor: "#003F66",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

@@ -358,7 +358,8 @@ const RiddlePage = () => {
 const styles = {
   container: {
     minHeight: "100vh",
-    backgroundColor: "#003F66", // Dark Blue
+    backgroundColor: "#003F66",
+    backgroundImage: "url('/images/wallpaper1.jpg')",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

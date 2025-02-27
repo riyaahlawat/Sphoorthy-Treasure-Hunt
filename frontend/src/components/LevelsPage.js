@@ -43,7 +43,7 @@ const LevelsPage = () => {
     <div style={styles.container}>
       <h1 style={styles.title}>LEVELS</h1>
       <div style={styles.levelsGrid}>
-        {Array.from({ length: 10 }, (_, index) => renderLevelButton(index + 1))}
+        {Array.from({ length: 20 }, (_, index) => renderLevelButton(index + 1))}
       </div>
     </div>
   );

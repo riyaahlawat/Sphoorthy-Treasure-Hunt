@@ -134,7 +134,7 @@ const RiddlePage = () => {
     14: {
       question:
         "What is a word that signifies recognizing and appreciating someone's efforts or presence?",
-      answers: ["Acknowledgement"],
+      answers: ["acknowledgement"],
       clues: [
         "It’s a signal that confirms the successful receipt of data, crucial for efficient and reliable networking.",
         "If you don’t show this in class, mentors are not going to entertain you.",
@@ -170,7 +170,7 @@ const RiddlePage = () => {
     18: {
       question:
         "Who is the first woman to earn a Ph.D. in computer science in the United States and is known for her groundbreaking work in artificial intelligence?",
-      answers: ["Grace Hopper"],
+      answers: ["grace hopper"],
       clues: [
         "She is a pioneer in AI and her work has influenced modern computing.",
         "There is a major tech conference dedicated to women in computing, named after her, called the ___ ______ Conference.",

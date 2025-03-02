@@ -74,45 +74,35 @@ const DSAGame = () => {
     }
   }, [answeredQuestions, setAnsweredQuestions, location.search]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (currentQuestionIndex === null) return;
-
-    if (
-      selectedOption.toLowerCase() ===
-      questions[currentQuestionIndex].answer.toLowerCase()
-    ) {
-      const safeAnsweredQuestions = Array.isArray(answeredQuestions)
-        ? answeredQuestions
-        : [];
-
-      if (setAnsweredQuestions) {
-        setAnsweredQuestions([...safeAnsweredQuestions, currentQuestionIndex]);
-      }
-
-      const newPowerUps = (powerUps || 0) + 1;
-      if (setPowerUps) {
-        setPowerUps(newPowerUps);
-      }
-
+  const handleSubmit = () => {
+    if (selectedOption === null) return;
+    if (selectedOption === questions[currentQuestionIndex].answer) {
+      if (setAnsweredQuestions)
+        setAnsweredQuestions([...answeredQuestions, currentQuestionIndex]);
+      if (setPowerUps) setPowerUps((prevPowerUps) => prevPowerUps + 1); // Increment power-up count
+  
       setFeedback("Correct! You earned a power-up!");
       setShowSuccess(true);
-
+  
+      // Get the correct return level
       const params = new URLSearchParams(location.search);
       const returnToLevel = params.get("returnTo") || "1";
-
+  
       setTimeout(() => {
-        navigate(`/riddle/${returnToLevel}`);
+        navigate(`/riddle/${returnToLevel}?powerUpEarned=true`); // Ensure correct return level
       }, 2000);
     } else {
       setFeedback("Incorrect. Try again!");
     }
   };
+  
 
   const handleBack = () => {
-    navigate("/mini-games-menu");
+    const params = new URLSearchParams(location.search);
+    const returnToLevel = params.get("returnTo") || "1"; // Default to level 1 if missing
+    navigate(`/mini-games-menu?returnTo=${returnToLevel}`); // Go back with correct level
   };
+  
 
   if (currentQuestionIndex === null) {
     return <div style={styles.container}>Loading...</div>;

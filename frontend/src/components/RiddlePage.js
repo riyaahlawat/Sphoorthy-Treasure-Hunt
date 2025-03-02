@@ -10,215 +10,216 @@ const RiddlePage = () => {
   const [showCluePopup, setShowCluePopup] = useState(false);
   const [showErrorPopup, setShowErrorPopup] = useState(false);
   const [showPowerUpNotification, setShowPowerUpNotification] = useState(false);
+  const [showNoClues, setShowNoClues] = useState(false);
   const [clueIndex, setClueIndex] = useState(0);
   const [currentClue, setCurrentClue] = useState("");
 
   const riddles = {
-    1: { 
-      question: "I am the intersection of what you love, what you are good at, what the world needs, and what you can be paid for. What am I?", 
-      answers: ["ikigai"], 
+    1: {
+      question:
+        "I am the intersection of what you love, what you are good at, what the world needs, and what you can be paid for. What am I?",
+      answers: ["ikigai"],
       clues: [
-        "I'm a Japanese concept that guides people to find their life's purpose.", 
-        "Sphoorthy often talks about me as the sweet spot of passion, mission, and profession."
-      ] 
+        "I'm a Japanese concept that guides people to find their life's purpose.",
+        "Sphoorthy often talks about me as the sweet spot of passion, mission, and profession.",
+      ],
     },
-    2: { 
-      question: "I'm Asokan's guiding principle, urging you to take control of your future. What am I?", 
-      answers: ["destiny"], 
+    2: {
+      question:
+        "I'm Asokan's guiding principle, urging you to take control of your future. What am I?",
+      answers: ["destiny"],
       clues: [
-        "Think about how a captain controls the ship, even when the sea is rough.", 
-        "I'm all about taking control and being responsible. Asokan says, 'Take charge of your ___'."
-      ] 
+        "Think about how a captain controls the ship, even when the sea is rough.",
+        "I'm all about taking control and being responsible. Asokan says, 'Take charge of your ___'.",
+      ],
     },
-    3: { 
-      question: "Whose presence in life can guide you, inspire you, and create wonders?", 
-      answers: ["mentor"], 
+    3: {
+      question:
+        "Whose presence in life can guide you, inspire you, and create wonders?",
+      answers: ["mentor"],
       clues: [
-        "This person shares wisdom and helps you grow.", 
-        "Sphoorthy emphasizes the importance of this person in life, showing how they shape our journey."
-      ] 
+        "This person shares wisdom and helps you grow.",
+        "Sphoorthy emphasizes the importance of this person in life, showing how they shape our journey.",
+      ],
     },
-    4: { 
-      question: "What approach, often used to solve complex problems, involves breaking down tasks into smaller, manageable steps and applying algorithms?", 
-      answers: ["computational thinking"], 
+    4: {
+      question:
+        "What approach, often used to solve complex problems, involves breaking down tasks into smaller, manageable steps and applying algorithms?",
+      answers: ["computational thinking"],
       clues: [
-        "This concept is key in programming, problem-solving, and creating efficient solutions.", 
-        "There's a whole session on this, taught by Anshul and Asokan in the bootcamp, that focuses on how to approach problems systematically."
-      ] 
+        "This concept is key in programming, problem-solving, and creating efficient solutions.",
+        "There's a whole session on this, taught by Anshul and Asokan in the bootcamp, that focuses on how to approach problems systematically.",
+      ],
     },
-    5: { 
-      question: "What is the practice that ensures your work is clear, understandable, and accessible for both current and future developers?", 
-      answers: ["documentation"], 
+    5: {
+      question:
+        "What is the practice that ensures your work is clear, understandable, and accessible for both current and future developers?",
+      answers: ["documentation"],
       clues: [
-        "You need this always, whether you're developing a project or learning a new framework or language.", 
-        "Aruvi and Asokan be like, 'Read the _________'."
-      ] 
+        "You need this always, whether you're developing a project or learning a new framework or language.",
+        "Aruvi and Asokan be like, 'Read the _________'.",
+      ],
     },
-    6: { 
-      question: "It's a flavorful and aromatic dish often made with rice, spices, and meat or vegetables.", 
-      answers: ["biryani"], 
+    6: {
+      question:
+        "It's a flavorful and aromatic dish often made with rice, spices, and meat or vegetables.",
+      answers: ["biryani"],
       clues: [
-        "A well-known Hyderabadi dish, often enjoyed with raita or mirchi ka salan.", 
-        "Kunisha's favorite dish."
-      ] 
+        "A well-known Hyderabadi dish, often enjoyed with raita or mirchi ka salan.",
+        "Kunisha's favorite dish.",
+      ],
     },
-    7: { 
-      question: "What is a word that can mend situations and bring a sense of remorse when things don’t go as planned?", 
-      answers: ["sorry"], 
+    7: {
+      question:
+        "What is a word that can mend situations and bring a sense of remorse when things don’t go as planned?",
+      answers: ["sorry"],
       clues: [
-        "It's often used to show empathy or regret after a mistake or misunderstanding.", 
-        "When you say this, Asokan remarks, 'My girlfriend doesn’t wear a saree.'"
-      ] 
+        "It's often used to show empathy or regret after a mistake or misunderstanding.",
+        "When you say this, Asokan remarks, 'My girlfriend doesn’t wear a saree.'",
+      ],
     },
-    8: { 
-      question: "What simple habit can save you from unnecessary doubts and mistakes in class?", 
-      answers: ["read the screen"], 
+    8: {
+      question:
+        "What simple habit can save you from unnecessary doubts and mistakes in class?",
+      answers: ["read the screen"],
       clues: [
         "Asokan and Aruvi always remind you to do this when you see a big red ERROR on your monitor!",
-        "I show you words, I show you clues—everything you need is right in view! Just read the ______."
-      ] 
+        "I show you words, I show you clues—everything you need is right in view! Just read the ______.",
+      ],
     },
-    9: { 
-      question: "I stand at the helm, guiding through night, a vision ahead, I ignite the light. Who am I?", 
-      answers: ["leader"], 
+    9: {
+      question:
+        "I stand at the helm, guiding through night, a vision ahead, I ignite the light. Who am I?",
+      answers: ["leader"],
       clues: [
-        "People often look to me for guidance, direction, and support, especially in times of uncertainty.", 
-        "I am skilled at making decisions, motivating teams, and setting a clear path."
-      ] 
+        "People often look to me for guidance, direction, and support, especially in times of uncertainty.",
+        "I am skilled at making decisions, motivating teams, and setting a clear path.",
+      ],
     },
-    10: { 
-      question: "What tool helps developers track changes, collaborate efficiently, and manage code versions?", 
-      answers: ["git", "github", "gitlab"], 
+    10: {
+      question:
+        "What tool helps developers track changes, collaborate efficiently, and manage code versions?",
+      answers: ["git", "github", "gitlab"],
       clues: [
         "This was the first-ever class taken for us by Aruvi.",
-        "It ensures your code history is safe, letting you commit, push, and pull with ease."
-      ] 
+        "It ensures your code history is safe, letting you commit, push, and pull with ease.",
+      ],
     },
-    11: { 
-      question: "What must you accept to achieve greatness?", 
-      answers: ["failure"], 
+    11: {
+      question: "What must you accept to achieve greatness?",
+      answers: ["failure"],
       clues: [
         "I start with 'F' and often feel like a setback.",
-        "But, without me, success wouldn’t be possible."
-      ] 
+        "But, without me, success wouldn’t be possible.",
+      ],
     },
-    12: { 
-      question: "In which company did Sphoorthy begin her career, stepping into the world of technology and innovation?", 
-      answers: ["ibm"], 
+    12: {
+      question:
+        "In which company did Sphoorthy begin her career, stepping into the world of technology and innovation?",
+      answers: ["ibm"],
       clues: [
-        "It is an American multinational technology company known for its iconic 'Think' slogan.", 
-        "It starts with 'I' and has a legacy of over a century of transforming the tech landscape."
-      ] 
+        "It is an American multinational technology company known for its iconic 'Think' slogan.",
+        "It starts with 'I' and has a legacy of over a century of transforming the tech landscape.",
+      ],
     },
-    13: { 
-      question: "I'm what helps you debug that tricky segmentation fault or optimize your code when it runs too slow. What am I?", 
-      answers: ["persistence"], 
+    13: {
+      question:
+        "I'm what helps you debug that tricky segmentation fault or optimize your code when it runs too slow. What am I?",
+      answers: ["persistence"],
       clues: [
         "You rely on me when you don’t get the right answer the first time but keep testing different possibilities.",
-        "Anshul always reminds you in every DSA session that I am the key to mastering problem-solving, even when we struggle with tough problems."
-      ] 
+        "Anshul always reminds you in every DSA session that I am the key to mastering problem-solving, even when we struggle with tough problems.",
+      ],
     },
-    14: { 
-      question: "What is a word that signifies recognizing and appreciating someone's efforts or presence?", 
-      answers: ["Acknowledgement"], 
+    14: {
+      question:
+        "What is a word that signifies recognizing and appreciating someone's efforts or presence?",
+      answers: ["Acknowledgement"],
       clues: [
-        "It’s a signal that confirms the successful receipt of data, crucial for efficient and reliable networking.", 
-        "If you don’t show this in class, mentors are not going to entertain you."
-      ] 
+        "It’s a signal that confirms the successful receipt of data, crucial for efficient and reliable networking.",
+        "If you don’t show this in class, mentors are not going to entertain you.",
+      ],
     },
-    15: { 
-      question: "What principle encourages you to leverage existing solutions rather than start from scratch?", 
-      answers: ["don’t reinvent the wheel"], 
+    15: {
+      question:
+        "What principle encourages you to leverage existing solutions rather than start from scratch?",
+      answers: ["don’t reinvent the wheel"],
       clues: [
-        "This concept emphasizes efficiency and reusability, often applied in software development to save time and effort.", 
-        "Aruvi often mentions it in web development classes to remind us to use what's already available."
-      ] 
+        "This concept emphasizes efficiency and reusability, often applied in software development to save time and effort.",
+        "Aruvi often mentions it in web development classes to remind us to use what's already available.",
+      ],
     },
-    16: { 
-      question: "I’m named for humor, not for fear. In coding realms, I’m held most dear. I speak in simplicity, yet my reach is vast. From scripts to AI, I’m built to last.", 
-      answers: ["python"], 
+    16: {
+      question:
+        "I’m named for humor, not for fear. In coding realms, I’m held most dear. I speak in simplicity, yet my reach is vast. From scripts to AI, I’m built to last.",
+      answers: ["python"],
       clues: [
-        "I thrive in data and guide machine minds, In the world of programming, I break confines.", 
-        "Though named for a serpent, I do no harm, A language of choice with immense charm."
-      ] 
+        "I thrive in data and guide machine minds, In the world of programming, I break confines.",
+        "Though named for a serpent, I do no harm, A language of choice with immense charm.",
+      ],
     },
-    17: { 
-      question: "I’m the trait that makes a leader great, Owning mistakes, I never hesitate. Without me, trust would surely fade, I’m key in the promises you’ve made.", 
-      answers: ["accountability"], 
+    17: {
+      question:
+        "I’m the trait that makes a leader great, Owning mistakes, I never hesitate. Without me, trust would surely fade, I’m key in the promises you’ve made.",
+      answers: ["accountability"],
       clues: [
-        "I’m all about responsibility and taking charge of your actions.", 
-        "Aruvi and Asokan always stress the importance of this to deliver reliable software.Kunisha made us make memes on this."
-      ] 
+        "I’m all about responsibility and taking charge of your actions.",
+        "Aruvi and Asokan always stress the importance of this to deliver reliable software.Kunisha made us make memes on this.",
+      ],
     },
     18: {
-      question: "Who is the first woman to earn a Ph.D. in computer science in the United States and is known for her groundbreaking work in artificial intelligence?", 
-      answers: ["Grace Hopper"], 
+      question:
+        "Who is the first woman to earn a Ph.D. in computer science in the United States and is known for her groundbreaking work in artificial intelligence?",
+      answers: ["Grace Hopper"],
       clues: [
-        "She is a pioneer in AI and her work has influenced modern computing.", 
-        "There is a major tech conference dedicated to women in computing, named after her, called the ___ ______ Conference."
-      ] 
+        "She is a pioneer in AI and her work has influenced modern computing.",
+        "There is a major tech conference dedicated to women in computing, named after her, called the ___ ______ Conference.",
+      ],
     },
     19: {
-      question: "I’m the fire within that drives you to climb, The spark that fuels dreams over time. With clear goals, I pave the way, Helping you achieve more every day.", 
-      answers: ["ambition"], 
+      question:
+        "I’m the fire within that drives you to climb, The spark that fuels dreams over time. With clear goals, I pave the way, Helping you achieve more every day.",
+      answers: ["ambition"],
       clues: [
-        "People say I light the path to success.", 
-        "Asokan often talks about me when setting goals."
-      ] 
+        "People say I light the path to success.",
+        "Asokan often talks about me when setting goals.",
+      ],
     },
     20: {
-      question: "I’m the reason you keep pushing through, Even when life feels harsh and blue. I’m the voice that says, “Don’t quit now,” Stay strong—I’ll show you how.", 
-      answers: ["hope"], 
+      question:
+        "I’m the reason you keep pushing through, Even when life feels harsh and blue. I’m the voice that says, “Don’t quit now,” Stay strong—I’ll show you how.",
+      answers: ["hope"],
       clues: [
-        "I’m the key to resilience and staying positive.", 
-        "They say I’m the belief that the future holds something good."
-      ]
-    }
-};
+        "I’m the key to resilience and staying positive.",
+        "They say I’m the belief that the future holds something good.",
+      ],
+    },
+  };
 
   const riddle = riddles[level];
 
-  // Check URL parameters and localStorage for notifications
   useEffect(() => {
-    // Check if we navigated from clue page
     const urlParams = new URLSearchParams(window.location.search);
-    const clueParam = urlParams.get('clueIndex');
-    const powerUpEarned = urlParams.get('powerUpEarned');
-    
-    // Check for clue index
-    if (clueParam && !isNaN(parseInt(clueParam))) {
-      const newClueIndex = parseInt(clueParam);
-      if (newClueIndex > 0 && newClueIndex <= riddle.clues.length) {
-        setClueIndex(newClueIndex);
-      }
+    const powerUpEarned = urlParams.get("powerUpEarned");
+    const returnToLevel = urlParams.get("returnTo") || level;
+
+    // Retrieve stored clueIndex (if exists)
+    const storedClueIndex = localStorage.getItem(`clueIndex-${level}`);
+    if (storedClueIndex !== null) {
+      setClueIndex(parseInt(storedClueIndex, 10)); // Persist clue usage
     }
-    
-    // Check if a power-up was just earned
-    if (powerUpEarned === 'true' || localStorage.getItem('justEarnedPowerUp') === 'true') {
+
+    if (powerUpEarned === "true") {
       setShowPowerUpNotification(true);
-      
-      // Clear the flag after showing notification
-      localStorage.removeItem('justEarnedPowerUp');
-      
-      // Check if we need to update the power-ups from localStorage
-      const storedPowerUps = localStorage.getItem('currentPowerUps');
-      if (storedPowerUps && !isNaN(parseInt(storedPowerUps))) {
-        setPowerUps(parseInt(storedPowerUps));
-        localStorage.removeItem('currentPowerUps');
-      }
-      
-      // Auto-hide notification after 3 seconds
+
       setTimeout(() => {
         setShowPowerUpNotification(false);
+        navigate(`/riddle/${returnToLevel}`);
       }, 3000);
     }
-    
-    // Clear URL parameters after reading them
-    if (powerUpEarned || clueParam) {
-      const cleanUrl = window.location.pathname;
-      window.history.replaceState({}, document.title, cleanUrl);
-    }
-  }, [level, riddle.clues.length, setPowerUps]);
+
+    window.history.replaceState({}, document.title, window.location.pathname);
+  }, [level, navigate, powerUps]);
 
   const checkAnswer = () => {
     if (riddle.answers.includes(userAnswer.toLowerCase())) {
@@ -230,23 +231,31 @@ const RiddlePage = () => {
 
   const useClue = () => {
     if (powerUps > 0 && clueIndex < 2) {
-      // If user has powerups, show the clue
-      const newClueIndex = clueIndex + 1;
-      setClueIndex(newClueIndex);
-      setCurrentClue(riddle.clues[newClueIndex - 1]);
-      setPowerUps(powerUps - 1); // Deduct a powerup
+      const newIndex = clueIndex + 1;
+      setClueIndex(newIndex);
+      setCurrentClue(riddle.clues[newIndex - 1]);
+  
+      // Store updated clueIndex in localStorage
+      localStorage.setItem(`clueIndex-${level}`, newIndex);
+  
+      navigate(`/riddle/${level}?clueIndex=${newIndex}`, { replace: true });
+  
+      setPowerUps((prev) => prev - 1);
       setShowCluePopup(true);
-    } else if (powerUps <= 0) {
-      // If no powerups, show error popup
+    } 
+    // Trigger "No Clues Left" popup correctly when clues are fully used
+    else if (clueIndex >= 2) {
+      setShowNoClues(true);
+    } 
+    // Show "No Powerups" popup when out of powerups and clues are still available
+    else if (powerUps <= 0 && clueIndex < 2) {
       setShowErrorPopup(true);
-    } else if (clueIndex >= 2) {
-      // If all clues used
-      alert("You've already used all available clues for this riddle.");
     }
   };
+  
 
   const getPowerUp = () => {
-    navigate(`/mini-games-menu?returnTo=${level}`);
+    navigate(`/mini-games-menu?returnTo=${level}&clueIndex=${clueIndex}`); // Ensure clueIndex persists
   };
 
   return (
@@ -275,21 +284,17 @@ const RiddlePage = () => {
           <button
             onClick={useClue}
             style={styles.clueButton}
-            disabled={powerUps <= 0 && clueIndex >= 2}
           >
             See Clues
           </button>
 
-          <button 
-            onClick={getPowerUp} 
-            style={styles.powerupButton}
-          >
+          <button onClick={getPowerUp} style={styles.powerupButton}>
             Get Powerup
           </button>
         </div>
 
-        <button 
-          onClick={() => navigate("/levels-page")} 
+        <button
+          onClick={() => navigate("/levels-page")}
           style={styles.backButton}
         >
           Back
@@ -317,11 +322,16 @@ const RiddlePage = () => {
             <div style={styles.popup}>
               <h3 style={styles.clueTitle}>No Powerups Available</h3>
               <p style={styles.clueContent}>
-                You need to earn powerups to see clues. Play mini-games to earn powerups!
+                You need to earn powerups to see clues. Play mini-games to earn
+                powerups!
               </p>
               <div style={styles.popupButtonContainer}>
                 <button
-                  onClick={() => navigate("/mini-games-menu")}
+                  onClick={() =>
+                    navigate(
+                      `/mini-games-menu?returnTo=${level}&clueIndex=${clueIndex}`
+                    )
+                  }
                   style={styles.clueButton}
                 >
                   Play Mini-games
@@ -336,7 +346,7 @@ const RiddlePage = () => {
             </div>
           </div>
         )}
-        
+
         {/* Power-up notification popup */}
         {showPowerUpNotification && (
           <div style={styles.notificationOverlay}>
@@ -347,6 +357,24 @@ const RiddlePage = () => {
                 <br />
                 Total power-ups: {powerUps}
               </p>
+            </div>
+          </div>
+        )}
+
+        {/* No Clues Left Popup */}
+        {showNoClues && (
+          <div style={styles.overlay}>
+            <div style={styles.popup}>
+              <h3 style={styles.clueTitle}>No Clues Left</h3>
+              <p style={styles.clueContent}>
+                You've already used all available clues for this riddle.
+              </p>
+              <button
+                onClick={() => setShowNoClues(false)}
+                style={styles.closeButton}
+              >
+                Close
+              </button>
             </div>
           </div>
         )}
@@ -513,7 +541,7 @@ const styles = {
     color: "#FFC72C", // Yellow
     fontSize: "1rem",
     lineHeight: "1.4",
-  }
+  },
 };
 
 export default RiddlePage;

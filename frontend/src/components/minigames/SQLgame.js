@@ -89,8 +89,11 @@ const SQLgame = () => {
   };
 
   const handleBack = () => {
-    navigate("/mini-games-menu");
+    const params = new URLSearchParams(location.search);
+    const returnToLevel = params.get("returnTo") || "1"; // Default to level 1 if missing
+    navigate(`/mini-games-menu?returnTo=${returnToLevel}`); // Go back with correct level
   };
+  
 
   if (currentQuestionIndex === null) {
     return <div style={styles.container}>Loading...</div>;

@@ -57,7 +57,7 @@ const questions = [
 ];
 
 const BitwiseGame = () => {
-  const { powerUps, setPowerUps, answeredQuestions, setAnsweredQuestions } =
+  const { powerUps, setPowerUps, answeredQuestions, setAnsweredQuestions} =
     useContext(GameContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -91,29 +91,37 @@ const BitwiseGame = () => {
     setFeedback(""); // Clear previous feedback when a new option is selected
   };
 
+  const handleBack = () => {
+    const params = new URLSearchParams(location.search);
+    const returnToLevel = params.get("returnTo") || "1"; // Keep correct level
+    navigate(`/mini-games-menu?returnTo=${returnToLevel}`); // Go back correctly
+  };
+  
   const handleSubmit = () => {
-    if (selectedOption === null) return; // Optionally alert the user to choose an option
+    if (selectedOption === null) return;
     if (selectedOption === questions[currentQuestionIndex].answer) {
       if (setAnsweredQuestions)
         setAnsweredQuestions([...answeredQuestions, currentQuestionIndex]);
-      if (setPowerUps) setPowerUps((powerUps || 0) + 1);
+      if (setPowerUps) setPowerUps((prevPowerUps) => prevPowerUps + 1); // Increment power-up count
+  
       setFeedback("Correct! You earned a power-up!");
       setShowSuccess(true);
-      setTimeout(
-        () =>
-          navigate(
-            `/riddle/${
-              new URLSearchParams(location.search).get("returnTo") || "1"
-            }`
-          ),
-        2000
-      );
+  
+      // Get the correct return level
+      const params = new URLSearchParams(location.search);
+      const returnToLevel = params.get("returnTo") || "1";
+  
+      setTimeout(() => {
+        navigate(`/riddle/${returnToLevel}?powerUpEarned=true`); // Ensure correct return level
+      }, 2000);
     } else {
       setFeedback("Incorrect. Try again!");
     }
   };
-
-  const handleBack = () => navigate("/mini-games-menu");
+  
+  
+  
+  
   const toggleHint = () => setShowHint(!showHint);
 
   if (currentQuestionIndex === null)

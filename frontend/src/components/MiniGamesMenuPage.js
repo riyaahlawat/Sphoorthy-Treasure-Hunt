@@ -5,13 +5,13 @@ const MiniGamesMenuPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [returnLevel, setReturnLevel] = useState("1");
-  
+
   useEffect(() => {
-    // Check for returnTo parameter in URL
     const params = new URLSearchParams(location.search);
     const level = params.get("returnTo");
+
     if (level) {
-      setReturnLevel(level);
+      setReturnLevel(level); // Keep the correct level from URL
     }
   }, [location]);
 
@@ -20,7 +20,7 @@ const MiniGamesMenuPage = () => {
       <div style={styles.menuCard}>
         <h1 style={styles.title}>Mini-Games</h1>
         <p style={styles.subtitle}>Play games to earn powerups!</p>
-        
+
         <div style={styles.buttonsContainer}>
           <button 
             onClick={() => navigate(`/mini-game/crypto?returnTo=${returnLevel}`)} 
@@ -28,13 +28,14 @@ const MiniGamesMenuPage = () => {
           >
             Cryptogram Game
           </button>
-          
+
           <button 
             onClick={() => navigate(`/mini-game/dsa-game?returnTo=${returnLevel}`)} 
             style={styles.gameButton}
           >
             DSA Challenge
           </button>
+
           <button 
             onClick={() => navigate(`/mini-game/bitwise-game?returnTo=${returnLevel}`)} 
             style={styles.gameButton}
@@ -48,6 +49,7 @@ const MiniGamesMenuPage = () => {
           >
             Loop Runner
           </button>
+
           <button 
             onClick={() => navigate(`/mini-game/sql-query?returnTo=${returnLevel}`)} 
             style={styles.gameButton}
@@ -55,7 +57,8 @@ const MiniGamesMenuPage = () => {
             Debugging an SQL query
           </button>
         </div>
-        
+
+        {/* Ensure correct level is passed back to Riddle */}
         <button 
           onClick={() => navigate(`/riddle/${returnLevel}`)} 
           style={styles.backButton}
@@ -66,6 +69,7 @@ const MiniGamesMenuPage = () => {
     </div>
   );
 };
+
 
 const styles = {
   container: {

@@ -20,7 +20,7 @@ const questions = [
 ];
 
 const CryptogramGame = () => {
-  const { powerUps, setPowerUps, answeredQuestions, setAnsweredQuestions } =
+  const { setPowerUps, answeredQuestions, setAnsweredQuestions } =
     useContext(GameContext);
   const navigate = useNavigate();
   const location = useLocation();
@@ -52,16 +52,27 @@ const CryptogramGame = () => {
     if (userAnswer.toUpperCase() === questions[currentQuestionIndex].answer) {
       if (setAnsweredQuestions)
         setAnsweredQuestions([...answeredQuestions, currentQuestionIndex]);
-      if (setPowerUps) setPowerUps((powerUps || 0) + 1);
+      if (setPowerUps) setPowerUps((prevPowerUps) => prevPowerUps + 1); // Increment power-up count
       setFeedback("Correct! You earned a power-up!");
       setShowSuccess(true);
-      setTimeout(() => navigate("/riddle/1"), 2000);
+      // Get correct return level
+      const params = new URLSearchParams(location.search);
+      const returnToLevel = params.get("returnTo") || "1"; // Default to level 1 only if no level is provided
+      setTimeout(() => {
+        navigate(`/riddle/${returnToLevel}?powerUpEarned=true`); // Ensure correct return level
+      }, 2000);
     } else {
       setFeedback("Incorrect. Try again!");
     }
   };
+  
 
-  const handleBack = () => navigate("/mini-games-menu");
+  const handleBack = () => {
+    const params = new URLSearchParams(location.search);
+    const returnToLevel = params.get("returnTo") || "1"; // Default to level 1 if missing
+    navigate(`/mini-games-menu?returnTo=${returnToLevel}`); // Go back with correct level
+  };
+  
 
   if (currentQuestionIndex === null) return <div>Loading...</div>;
   const currentQuestion = questions[currentQuestionIndex];

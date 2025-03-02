@@ -143,7 +143,7 @@ const RiddlePage = () => {
     15: {
       question:
         "What principle encourages you to leverage existing solutions rather than start from scratch?",
-      answers: ["don’t reinvent the wheel"],
+      answers: ["don't reinvent the wheel"],
       clues: [
         "This concept emphasizes efficiency and reusability, often applied in software development to save time and effort.",
         "Aruvi often mentions it in web development classes to remind us to use what's already available.",

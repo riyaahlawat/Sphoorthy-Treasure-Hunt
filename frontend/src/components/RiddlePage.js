@@ -566,6 +566,7 @@ const styles = {
     color: "#FFC72C", // Yellow
     fontSize: "1rem",
     lineHeight: "1.4",
+    fontFamily: "'MedievalSharp', cursive",
   },
 };
 

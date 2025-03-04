@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { GameProvider } from "./context/GameContext"; // Import Game Context
-import StartPage from "./components/StartPage";
 import StoryPage from "./components/StoryPage";
 import LoginPage from "./components/Login";
 import LevelsPage from "./components/LevelsPage";
@@ -21,7 +20,6 @@ function App() {
     <GameProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/start-page" element={<StartPage />} />
           <Route path="/story-page" element={<StoryPage />} />
           <Route path="/levels-page" element={<LevelsPage />} />
           <Route path="/riddle/:level" element={<RiddlePage />} />

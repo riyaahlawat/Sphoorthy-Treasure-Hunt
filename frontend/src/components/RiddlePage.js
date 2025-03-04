@@ -260,6 +260,7 @@ const RiddlePage = () => {
 
   return (
     <div style={styles.container}>
+      <div style={styles.overlay}>
       <div style={styles.riddleCard}>
         <h1 style={styles.title}>Level - {level}</h1>
         <p style={styles.question}>{riddle.question}</p>
@@ -379,23 +380,24 @@ const RiddlePage = () => {
           </div>
         )}
       </div>
+      </div>
     </div>
   );
 };
 
 const styles = {
   container: {
-    minHeight: "100vh",
-    backgroundColor: "#654a23", // Fallback color
-    backgroundImage: "url('/images/wallpaper1.jpg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "20px",
-    position: "relative", // Required for pseudo-element positioning
-    overflow: "hidden", // Prevent overflow
+    position: "relative",
+  minHeight: "100vh",
+  backgroundColor: "#003F66",
+  backgroundImage: "url('/images/wallpaper1.jpg')",
+  backgroundSize: "cover",
+  backgroundPosition: "center",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  padding: "20px",
+  overflow: "hidden",// Prevent overflow
     "&::before": {
       content: '""',
       position: "absolute",
@@ -500,9 +502,9 @@ const styles = {
     position: "fixed",
     top: 0,
     left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(0,0,0,0.7)",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(139, 69, 19, 0.5)",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -524,6 +526,7 @@ const styles = {
   clueContent: {
     color: "#FFC72C", // Yellow
     marginBottom: "20px",
+    fontFamily: "'MedievalSharp', cursive",
   },
   closeButton: {
     backgroundColor: "#8B0000", // Dark Red

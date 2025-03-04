@@ -59,10 +59,12 @@ const styles = {
     padding: "40px 20px",
   },
   title: {
-    fontSize: "2.5rem",
+    fontSize: "3rem", // Increased font size for better visibility
     color: "#FFD700",
     marginBottom: "40px",
     textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
+    fontFamily: "'Pirata One', cursive", // Apply Pirata One font
+    letterSpacing: "2px", // Add some letter spacing for a pirate vibe
   },
   levelsGrid: {
     display: "grid",
@@ -71,8 +73,8 @@ const styles = {
     maxWidth: "900px",
     width: "100%",
     padding: "20px",
-},
-levelButton: {
+  },
+  levelButton: {
     padding: "20px 20px", // Increase width by adding more padding
     fontSize: "1.2rem",
     minWidth: "180px", // Ensure buttons are wider
@@ -88,8 +90,7 @@ levelButton: {
     "&:hover": {
       transform: "scale(1.05)",
     },
-},
-
+  },
 };
 
 export default LevelsPage;

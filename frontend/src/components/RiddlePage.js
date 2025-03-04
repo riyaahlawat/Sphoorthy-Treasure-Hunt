@@ -386,12 +386,26 @@ const RiddlePage = () => {
 const styles = {
   container: {
     minHeight: "100vh",
-    backgroundColor: "#003F66",
+    backgroundColor: "#654a23", // Fallback color
     backgroundImage: "url('/images/wallpaper1.jpg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     padding: "20px",
+    position: "relative", // Required for pseudo-element positioning
+    overflow: "hidden", // Prevent overflow
+    "&::before": {
+      content: '""',
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: "rgba(101, 67, 33, 0.7)", // Translucent brown
+      zIndex: 1, // Ensure it's above the background image but below the content
+    },
   },
   riddleCard: {
     backgroundColor: "#1C1C1C", // Black
@@ -400,6 +414,11 @@ const styles = {
     maxWidth: "600px",
     width: "100%",
     border: "2px solid #FFC72C", // Yellow
+    position: "relative", // Ensure it's above the overlay
+    zIndex: 2, // Ensure it's above the overlay
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center", // Center-align content horizontally
   },
   title: {
     color: "#FFC72C", // Yellow
@@ -413,9 +432,10 @@ const styles = {
     marginBottom: "30px",
     lineHeight: "1.6",
     textAlign: "center",
+    fontFamily: "'MedievalSharp', cursive", // MedievalSharp font
   },
   input: {
-    width: "100%",
+    width: "90%", // Slightly less than 100% for better alignment
     padding: "12px",
     fontSize: "1rem",
     backgroundColor: "transparent",
@@ -423,6 +443,7 @@ const styles = {
     borderRadius: "5px",
     color: "#FFC72C", // Yellow
     marginBottom: "20px",
+    textAlign: "center", // Center-align text
   },
   submitButton: {
     backgroundColor: "#FFC72C", // Yellow
@@ -433,7 +454,8 @@ const styles = {
     fontSize: "1.1rem",
     cursor: "pointer",
     marginBottom: "20px",
-    width: "100%",
+    width: "90%", // Match input width
+    textAlign: "center", // Center-align text
   },
   buttonContainer: {
     display: "flex",
@@ -472,6 +494,7 @@ const styles = {
     color: "#FFC72C", // Yellow
     marginBottom: "10px",
     textAlign: "center",
+    fontFamily: "'MedievalSharp', cursive", // MedievalSharp font
   },
   overlay: {
     position: "fixed",
@@ -515,7 +538,6 @@ const styles = {
     justifyContent: "center",
     gap: "10px",
   },
-  // New styles for power-up notification
   notificationOverlay: {
     position: "fixed",
     top: 20,

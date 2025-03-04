@@ -36,7 +36,7 @@ const RiddlePage = () => {
     3: {
       question:
         "Whose presence in life can guide you, inspire you, and create wonders?",
-      answers: ["mentor"],
+      answers: ["mentor", "mentors"],
       clues: [
         "This person shares wisdom and helps you grow.",
         "Sphoorthy emphasizes the importance of this person in life, showing how they shape our journey.",
@@ -90,7 +90,7 @@ const RiddlePage = () => {
     9: {
       question:
         "I stand at the helm, guiding through night, a vision ahead, I ignite the light. Who am I?",
-      answers: ["leader"],
+      answers: ["leader", "lead"],
       clues: [
         "People often look to me for guidance, direction, and support, especially in times of uncertainty.",
         "I am skilled at making decisions, motivating teams, and setting a clear path.",
@@ -107,7 +107,7 @@ const RiddlePage = () => {
     },
     11: {
       question: "What must you accept to achieve greatness?",
-      answers: ["failure"],
+      answers: ["failure", "loss"],
       clues: [
         "I start with 'F' and often feel like a setback.",
         "But, without me, success wouldn’t be possible.",

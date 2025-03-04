@@ -6,7 +6,7 @@ const LandingPage = () => {
   const navigate = useNavigate();
 
   const handleStart = () => {
-    navigate("/start-page"); // Navigate to the start page
+    navigate("/story-page"); // Navigate to the start page
   };
 
   return (

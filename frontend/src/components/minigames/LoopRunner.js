@@ -213,7 +213,7 @@ const styles = {
   },
   input: {
     width: "100%",
-    padding: "12px",
+    padding: "10px 0px",
     fontSize: "1rem",
     backgroundColor: "transparent",
     border: "2px solid #FFD700",

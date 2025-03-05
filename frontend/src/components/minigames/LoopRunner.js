@@ -118,7 +118,7 @@ const LoopRunner = () => {
   return (
     <div className="game-container" style={styles.container}>
       <div className="game-box" style={styles.gameBox}>
-        <h2 style={styles.title}>Loop Ruunner</h2>
+        <h2 style={styles.title}>Loop Runner</h2>
         <strong style={styles.question}>
           Question: {questions[currentQuestionIndex].question}
         </strong>
@@ -206,6 +206,7 @@ const styles = {
     fontSize: "1.2rem",
     marginBottom: "20px",
     display: "block",
+    fontFamily: "'MedievalSharp', cursive",
   },
   form: {
     marginTop: "20px",

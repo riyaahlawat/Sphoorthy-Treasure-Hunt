@@ -388,16 +388,16 @@ const RiddlePage = () => {
 const styles = {
   container: {
     position: "relative",
-  minHeight: "100vh",
-  backgroundColor: "#003F66",
-  backgroundImage: "url('/images/wallpaper1.jpg')",
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  padding: "20px",
-  overflow: "hidden",// Prevent overflow
+    minHeight: "100vh",
+    backgroundColor: "#003F66",
+    backgroundImage: "url('/images/wallpaper1.jpg')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "20px",
+    overflow: "hidden",
     "&::before": {
       content: '""',
       position: "absolute",
@@ -437,8 +437,8 @@ const styles = {
     fontFamily: "'MedievalSharp', cursive", // MedievalSharp font
   },
   input: {
-    width: "90%", // Slightly less than 100% for better alignment
-    padding: "12px",
+    width: "100%", // Full width to match submit button
+    padding: "10px 1px",
     fontSize: "1rem",
     backgroundColor: "transparent",
     border: "2px solid #FFC72C", // Yellow
@@ -456,7 +456,7 @@ const styles = {
     fontSize: "1.1rem",
     cursor: "pointer",
     marginBottom: "20px",
-    width: "90%", // Match input width
+    width: "100%", // Full width to match input box
     textAlign: "center", // Center-align text
   },
   buttonContainer: {
@@ -464,6 +464,7 @@ const styles = {
     justifyContent: "center",
     gap: "20px",
     marginBottom: "20px",
+    width: "100%", // Ensure the container takes full width
   },
   clueButton: {
     backgroundColor: "#004F6D", // Teal Blue
@@ -472,7 +473,8 @@ const styles = {
     border: "none",
     borderRadius: "5px",
     cursor: "pointer",
-    flex: 1,
+    flex: 1, // Equal width for both buttons
+    width: "100%", // Full width within the container
   },
   powerupButton: {
     backgroundColor: "#001EFF", // Royal Blue
@@ -481,7 +483,8 @@ const styles = {
     border: "none",
     borderRadius: "5px",
     cursor: "pointer",
-    flex: 1,
+    flex: 1, // Equal width for both buttons
+    width: "100%", // Full width within the container
   },
   backButton: {
     backgroundColor: "#8B0000", // Dark Red
@@ -490,7 +493,7 @@ const styles = {
     border: "none",
     borderRadius: "5px",
     cursor: "pointer",
-    width: "100%",
+    width: "100%", // Full width to match combined width of clue and powerup buttons
   },
   clueText: {
     color: "#FFC72C", // Yellow

@@ -63,7 +63,7 @@ const RiddlePage = () => {
     6: {
       question:
         "It's a flavorful and aromatic dish often made with rice, spices, and meat or vegetables.",
-      answers: ["biryani"],
+      answers: ["biryani", "briyani", "biriyani"],
       clues: [
         "A well-known Hyderabadi dish, often enjoyed with raita or mirchi ka salan.",
         "Kunisha's favorite dish.",
@@ -81,7 +81,7 @@ const RiddlePage = () => {
     8: {
       question:
         "What simple habit can save you from unnecessary doubts and mistakes in class?",
-      answers: ["read the screen"],
+      answers: ["read the screen", "read screen"],
       clues: [
         "Asokan and Aruvi always remind you to do this when you see a big red ERROR on your monitor!",
         "I show you words, I show you clues—everything you need is right in view! Just read the ______.",
@@ -143,7 +143,7 @@ const RiddlePage = () => {
     15: {
       question:
         "What principle encourages you to leverage existing solutions rather than start from scratch?",
-      answers: ["don't reinvent the wheel"],
+      answers: ["don't reinvent the wheel", "dont reinvent the wheel", "don't reinvent wheel", "dont reinvent wheel"],
       clues: [
         "This concept emphasizes efficiency and reusability, often applied in software development to save time and effort.",
         "Aruvi often mentions it in web development classes to remind us to use what's already available.",
@@ -170,7 +170,7 @@ const RiddlePage = () => {
     18: {
       question:
         "Who is the first woman to earn a Ph.D. in computer science in the United States and is known for her groundbreaking work in artificial intelligence?",
-      answers: ["grace hopper"],
+      answers: ["grace hopper", "Grace Hopper", "Grace hopper"],
       clues: [
         "She is a pioneer in AI and her work has influenced modern computing.",
         "There is a major tech conference dedicated to women in computing, named after her, called the ___ ______ Conference.",
@@ -223,7 +223,11 @@ const RiddlePage = () => {
 
   const checkAnswer = () => {
     if (riddle.answers.includes(userAnswer.toLowerCase())) {
-      navigate(`/level-complete/${level}`);
+      if (parseInt(level) === 20) {
+        navigate("/final-level-complete");
+      } else {
+        navigate(`/level-complete/${level}`);
+      }
     } else {
       alert("Wrong answer! Try again.");
     }

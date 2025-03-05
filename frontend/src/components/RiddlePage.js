@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { GameContext } from "../context/GameContext";
 
 const RiddlePage = () => {
-  const { powerUps, setPowerUps } = useContext(GameContext);
+  const { powerUps, setPowerUps, unlockedLevels } = useContext(GameContext);
   const { level } = useParams();
   const navigate = useNavigate();
   const [userAnswer, setUserAnswer] = useState("");
@@ -199,6 +199,13 @@ const RiddlePage = () => {
   const riddle = riddles[level];
 
   useEffect(() => {
+    // Check if the level is unlocked
+    if (!unlockedLevels.includes(parseInt(level))) {
+      alert("You haven't unlocked this level yet!");
+      navigate("/levels-page"); // Redirect to levels page
+      return;
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const powerUpEarned = urlParams.get("powerUpEarned");
     const returnToLevel = urlParams.get("returnTo") || level;
@@ -219,7 +226,7 @@ const RiddlePage = () => {
     }
 
     window.history.replaceState({}, document.title, window.location.pathname);
-  }, [level, navigate, powerUps]);
+  }, [level, navigate, unlockedLevels]);
 
   const checkAnswer = () => {
     if (riddle.answers.includes(userAnswer.toLowerCase())) {

@@ -175,19 +175,21 @@ const styles = {
     fontSize: "1.1rem",
     marginBottom: "20px",
     lineHeight: "1.6",
+    fontFamily: "'MedievalSharp', cursive",
   },
   question: {
     color: "#FFD700",
     fontSize: "1.2rem",
     marginBottom: "20px",
     display: "block",
+    fontFamily: "'MedievalSharp', cursive",
   },
   form: {
     marginTop: "20px",
   },
   input: {
     width: "100%",
-    padding: "12px",
+    padding: "10px 0px",
     fontSize: "1rem",
     backgroundColor: "transparent",
     border: "2px solid #FFD700",

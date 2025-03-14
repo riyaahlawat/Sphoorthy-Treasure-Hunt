@@ -99,7 +99,7 @@ const RiddlePage = () => {
     9: {
       question:
         "I stand at the helm, guiding through night, a vision ahead, I ignite the light. Who am I?",
-      answers: ["leader", "lead"],
+      answers: ["leader", "lead", "team leader", "group leader", "group lead", "team lead"],
       clues: [
         "People often look to me for guidance, direction, and support, especially in times of uncertainty.",
         "I am skilled at making decisions, motivating teams, and setting a clear path.",
@@ -143,7 +143,7 @@ const RiddlePage = () => {
     14: {
       question:
         "What is a word that signifies recognizing and appreciating someone's efforts or presence?",
-      answers: ["acknowledgement"],
+      answers: ["acknowledgement", "acknowledge"],
       clues: [
         "It’s a signal that confirms the successful receipt of data, crucial for efficient and reliable networking.",
         "If you don’t show this in class, mentors are not going to entertain you.",
@@ -170,7 +170,7 @@ const RiddlePage = () => {
     17: {
       question:
         "I’m the trait that makes a leader great, Owning mistakes, I never hesitate. Without me, trust would surely fade, I’m key in the promises you’ve made.",
-      answers: ["accountability"],
+      answers: ["accountability", "accountable"],
       clues: [
         "I’m all about responsibility and taking charge of your actions.",
         "Aruvi and Asokan always stress the importance of this to deliver reliable software.Kunisha made us make memes on this.",

@@ -1,10 +1,14 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { GameContext } from "../../context/GameContext";
+<<<<<<< HEAD
 import Sound from "react-sound";
 import bgMusic from "../../assets/sound-effects/ind-minigame-bg-music.mp3"; // Import background music
 import submitSound from "../../assets/sound-effects/minigame-button-click.wav"; // Import submit button sound
 import backSound from "../../assets/sound-effects/button-click.mp3";
+=======
+import backgroundImg from "../../assets/images/bg1212.jpg";
+>>>>>>> e1d30398efeccd9fde27c9263ca7852101923308
 
 const questions = [
   {
@@ -180,7 +184,7 @@ const styles = {
     position: "relative", // Required for pseudo-element positioning
     minHeight: "100vh",
     backgroundColor: "#003F66",
-    backgroundImage: "url('/images/wallpaper1.jpg')",
+    backgroundImage: `url(${backgroundImg})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     display: "flex",

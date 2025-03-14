@@ -1,11 +1,18 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GameContext } from "../context/GameContext";
+<<<<<<< HEAD
 import Sound from "react-sound";
 import bgMusic from "../assets/sound-effects/riddle-bg-music.mp3";
 import submitSound from "../assets/sound-effects/riddle-button-click.mp3";
 import cluePowerUpSound from "../assets/sound-effects/riddle-cluepowerup-button.mp3";
 import backSound from "../assets/sound-effects/button-click.mp3";
+=======
+import backgroundImg from "../assets/images/bg11.b.jpg";
+import neutralImg from "../assets/images/neutral.png";
+import sadImg from "../assets/images/sad.png";
+import happyImg from "../assets/images/happy.png";
+>>>>>>> e1d30398efeccd9fde27c9263ca7852101923308
 
 const RiddlePage = () => {
   const { powerUps, setPowerUps, unlockedLevels } = useContext(GameContext);
@@ -18,10 +25,16 @@ const RiddlePage = () => {
   const [showNoClues, setShowNoClues] = useState(false);
   const [clueIndex, setClueIndex] = useState(0);
   const [currentClue, setCurrentClue] = useState("");
+<<<<<<< HEAD
   const [playBackgroundMusic, setPlayBackgroundMusic] = useState(false);
   const [playSubmitSound, setPlaySubmitSound] = useState(false);
   const [playCluePowerUpSound, setPlayCluePowerUpSound] = useState(false);
   const [playBackSound, setPlayBackSound] = useState(false);
+=======
+  const [feedback, setFeedback] = useState("");
+  const [imageSrc, setImageSrc] = useState(neutralImg); // Default to neutral image
+
+>>>>>>> e1d30398efeccd9fde27c9263ca7852101923308
 
   const riddles = {
     1: {
@@ -240,22 +253,42 @@ const RiddlePage = () => {
     window.history.replaceState({}, document.title, window.location.pathname);
   }, [level, navigate, unlockedLevels]);
 
+
+
   const checkAnswer = () => {
+<<<<<<< HEAD
     // Play the submit button sound
     setPlaySubmitSound(true);
     // Delay the answer check until the sound finishes playing
     setTimeout(() => {
       if (riddle.answers.includes(userAnswer.toLowerCase())) {
+=======
+    if (riddle.answers.includes(userAnswer.toLowerCase())) {
+      setImageSrc(happyImg); // Change image to happy.png on correct answer
+      setFeedback("Correct! You solved the riddle!");
+      // Navigate to next level or completion page
+      setTimeout(() => {
+>>>>>>> e1d30398efeccd9fde27c9263ca7852101923308
         if (parseInt(level) === 20) {
           navigate("/final-level-complete");
         } else {
           navigate(`/level-complete/${level}`);
         }
+<<<<<<< HEAD
       } else {
         alert("Wrong answer! Try again.");
       }
     }, 500); // Adjust the delay to match the sound duration
+=======
+      }, 1500);
+    } else {
+      setImageSrc(sadImg); // Change image to sad.png on wrong answer
+      setFeedback("Oops! Wrong answer. Try again.");
+    }
+>>>>>>> e1d30398efeccd9fde27c9263ca7852101923308
   };
+  
+  
 
   const useClue = () => {
     // Play the clue/powerup button sound
@@ -296,6 +329,12 @@ const RiddlePage = () => {
 
   return (
     <div style={styles.container}>
+      {/* Image positioned at the bottom left */}
+      <div style={styles.imageContainer}>
+        <img src={imageSrc} alt="Feedback" style={styles.feedbackImage} />
+      </div>
+
+      {/* Overlay and Riddle Card */}
       <div style={styles.overlay}>
         <div style={styles.riddleCard}>
           <h1 style={styles.title}>Level - {level}</h1>
@@ -313,6 +352,7 @@ const RiddlePage = () => {
             Submit
           </button>
 
+<<<<<<< HEAD
           <p style={styles.clueText}>
             Powerups available: {powerUps} | Clues used: {clueIndex}/2
           </p>
@@ -322,25 +362,52 @@ const RiddlePage = () => {
               See Clues
             </button>
 
+=======
+          {feedback && <p style={styles.feedbackText}>{feedback}</p>}
+
+          <p style={styles.clueText}>
+            Powerups available: {powerUps} | Clues used: {clueIndex}/2
+          </p>
+
+          <div style={styles.buttonContainer}>
+            <button onClick={useClue} style={styles.clueButton}>
+              See Clues
+            </button>
+>>>>>>> e1d30398efeccd9fde27c9263ca7852101923308
             <button onClick={getPowerUp} style={styles.powerupButton}>
               Get Powerup
             </button>
           </div>
 
+<<<<<<< HEAD
           <button onClick={goBack} style={styles.backButton}>
             Back
           </button>
 
+=======
+          <button
+            onClick={() => navigate("/levels-page")}
+            style={styles.backButton}
+          >
+            Back
+          </button>
+
+          {/* Popups (unchanged) */}
+>>>>>>> e1d30398efeccd9fde27c9263ca7852101923308
           {showCluePopup && (
             <div style={styles.overlay}>
               <div style={styles.popup}>
                 <h3 style={styles.clueTitle}>Clue #{clueIndex}</h3>
                 <p style={styles.clueContent}>{currentClue}</p>
                 <button
+<<<<<<< HEAD
                   onClick={() => {
                     setPlayCluePowerUpSound(true); // Play the cluePowerUpSound
                     setShowCluePopup(false); // Close the popup
                   }}
+=======
+                  onClick={() => setShowCluePopup(false)}
+>>>>>>> e1d30398efeccd9fde27c9263ca7852101923308
                   style={styles.closeButton}
                 >
                   Got it!
@@ -349,7 +416,10 @@ const RiddlePage = () => {
             </div>
           )}
 
+<<<<<<< HEAD
           {/* Error popup for no powerups */}
+=======
+>>>>>>> e1d30398efeccd9fde27c9263ca7852101923308
           {showErrorPopup && (
             <div style={styles.overlay}>
               <div style={styles.popup}>
@@ -380,7 +450,10 @@ const RiddlePage = () => {
             </div>
           )}
 
+<<<<<<< HEAD
           {/* Power-up notification popup */}
+=======
+>>>>>>> e1d30398efeccd9fde27c9263ca7852101923308
           {showPowerUpNotification && (
             <div style={styles.notificationOverlay}>
               <div style={styles.notificationPopup}>
@@ -394,7 +467,10 @@ const RiddlePage = () => {
             </div>
           )}
 
+<<<<<<< HEAD
           {/* No Clues Left Popup */}
+=======
+>>>>>>> e1d30398efeccd9fde27c9263ca7852101923308
           {showNoClues && (
             <div style={styles.overlay}>
               <div style={styles.popup}>
@@ -447,12 +523,13 @@ const RiddlePage = () => {
   );
 };
 
+
 const styles = {
   container: {
     position: "relative",
     minHeight: "100vh",
     backgroundColor: "#003F66",
-    backgroundImage: "url('/images/wallpaper1.jpg')",
+    backgroundImage: `url(${backgroundImg})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     display: "flex",
@@ -460,110 +537,19 @@ const styles = {
     alignItems: "center",
     padding: "20px",
     overflow: "hidden",
-    "&::before": {
-      content: '""',
-      position: "absolute",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: "rgba(101, 67, 33, 0.7)", // Translucent brown
-      zIndex: 1, // Ensure it's above the background image but below the content
-    },
   },
-  riddleCard: {
-    backgroundColor: "#1C1C1C", // Black
-    padding: "40px",
-    borderRadius: "15px",
-    maxWidth: "600px",
-    width: "100%",
-    border: "2px solid #FFC72C", // Yellow
-    position: "relative", // Ensure it's above the overlay
-    zIndex: 2, // Ensure it's above the overlay
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center", // Center-align content horizontally
+  imageContainer: {
+    position: "fixed",
+    bottom: "20px",
+    left: "20px",
+    zIndex: 2, // Ensure the image is above the overlay
   },
-  title: {
-    color: "#FFC72C", // Yellow
-    fontSize: "2rem",
-    marginBottom: "20px",
-    textAlign: "center",
-  },
-  question: {
-    color: "#FFC72C", // Yellow
-    fontSize: "1.2rem",
-    marginBottom: "30px",
-    lineHeight: "1.6",
-    textAlign: "center",
-    fontFamily: "'MedievalSharp', cursive", // MedievalSharp font
-  },
-  input: {
-    width: "100%", // Full width to match submit button
-    padding: "10px 1px",
-    fontSize: "1rem",
-    backgroundColor: "transparent",
-    border: "2px solid #FFC72C", // Yellow
-    borderRadius: "5px",
-    color: "#FFC72C", // Yellow
-    marginBottom: "20px",
-    textAlign: "center", // Center-align text
-  },
-  submitButton: {
-    backgroundColor: "#FFC72C", // Yellow
-    color: "black",
-    padding: "10px 30px",
-    border: "none",
-    borderRadius: "5px",
-    fontSize: "1.1rem",
-    cursor: "pointer",
-    marginBottom: "20px",
-    width: "100%", // Full width to match input box
-    textAlign: "center", // Center-align text
-  },
-  buttonContainer: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "20px",
-    marginBottom: "20px",
-    width: "100%", // Ensure the container takes full width
-  },
-  clueButton: {
-    backgroundColor: "#004F6D", // Teal Blue
-    color: "white",
-    padding: "10px 20px",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    flex: 1, // Equal width for both buttons
-    width: "100%", // Full width within the container
-  },
-  powerupButton: {
-    backgroundColor: "#001EFF", // Royal Blue
-    color: "white",
-    padding: "10px 20px",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    flex: 1, // Equal width for both buttons
-    width: "100%", // Full width within the container
-  },
-  backButton: {
-    backgroundColor: "#8B0000", // Dark Red
-    color: "white",
-    padding: "10px 20px",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    width: "100%", // Full width to match combined width of clue and powerup buttons
-  },
-  clueText: {
-    color: "#FFC72C", // Yellow
-    marginBottom: "10px",
-    textAlign: "center",
-    fontFamily: "'MedievalSharp', cursive", // MedievalSharp font
+  feedbackImage: {
+    width: "280px", // Adjust as needed
+    height: "280px", // Adjust as needed
   },
   overlay: {
+    opacity: 0.9,
     position: "fixed",
     top: 0,
     left: 0,
@@ -574,27 +560,124 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
   },
+  riddleCard: {
+    backgroundColor: "#1C1C1C",
+    padding: "40px",
+    borderRadius: "15px",
+    maxWidth: "600px",
+    width: "100%",
+    border: "2px solid #FFC72C",
+    position: "relative",
+    zIndex: 2,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  title: {
+    color: "#FFC72C",
+    fontSize: "2rem",
+    marginBottom: "20px",
+    textAlign: "center",
+  },
+  question: {
+    color: "#FFC72C",
+    fontSize: "1.2rem",
+    marginBottom: "30px",
+    lineHeight: "1.6",
+    textAlign: "center",
+    fontFamily: "'MedievalSharp', cursive",
+  },
+  input: {
+    width: "100%",
+    padding: "10px 1px",
+    fontSize: "1rem",
+    backgroundColor: "transparent",
+    border: "2px solid #FFC72C",
+    borderRadius: "5px",
+    color: "#FFC72C",
+    marginBottom: "20px",
+    textAlign: "center",
+  },
+  submitButton: {
+    backgroundColor: "#FFC72C",
+    color: "black",
+    padding: "10px 30px",
+    border: "none",
+    borderRadius: "5px",
+    fontSize: "1.1rem",
+    cursor: "pointer",
+    marginBottom: "20px",
+    width: "100%",
+    textAlign: "center",
+  },
+  feedbackText: {
+    color: "#FFC72C",
+    fontSize: "1.2rem",
+    textAlign: "center",
+  },
+  clueText: {
+    color: "#FFC72C",
+    marginBottom: "10px",
+    textAlign: "center",
+    fontFamily: "'MedievalSharp', cursive",
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "20px",
+    marginBottom: "20px",
+    width: "100%",
+  },
+  clueButton: {
+    backgroundColor: "#004F6D",
+    color: "white",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    flex: 1,
+    width: "100%",
+  },
+  powerupButton: {
+    backgroundColor: "#001EFF",
+    color: "white",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    flex: 1,
+    width: "100%",
+  },
+  backButton: {
+    backgroundColor: "#8B0000",
+    color: "white",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    width: "100%",
+  },
   popup: {
-    backgroundColor: "#1C1C1C", // Black
+    backgroundColor: "#1C1C1C",
     padding: "20px",
     borderRadius: "10px",
-    border: "2px solid #FFC72C", // Yellow
-    color: "#FFC72C", // Yellow
+    border: "2px solid #FFC72C",
+    color: "#FFC72C",
     maxWidth: "400px",
     width: "90%",
     textAlign: "center",
   },
   clueTitle: {
-    color: "#FFC72C", // Yellow
+    color: "#FFC72C",
     marginBottom: "15px",
   },
   clueContent: {
-    color: "#FFC72C", // Yellow
+    color: "#FFC72C",
     marginBottom: "20px",
     fontFamily: "'MedievalSharp', cursive",
   },
   closeButton: {
-    backgroundColor: "#8B0000", // Dark Red
+    backgroundColor: "#8B0000",
     color: "white",
     padding: "8px 20px",
     border: "none",
@@ -613,22 +696,22 @@ const styles = {
     zIndex: 1000,
   },
   notificationPopup: {
-    backgroundColor: "#004F6D", // Teal Blue
+    backgroundColor: "#004F6D",
     padding: "15px",
     borderRadius: "10px",
-    border: "2px solid #FFC72C", // Yellow
-    color: "#FFC72C", // Yellow
+    border: "2px solid #FFC72C",
+    color: "#FFC72C",
     maxWidth: "300px",
     textAlign: "center",
     animation: "fadeInOut 3s forwards",
   },
   powerupTitle: {
-    color: "#FFC72C", // Yellow
+    color: "#FFC72C",
     marginBottom: "10px",
     fontSize: "1.2rem",
   },
   powerupContent: {
-    color: "#FFC72C", // Yellow
+    color: "#FFC72C",
     fontSize: "1rem",
     lineHeight: "1.4",
     fontFamily: "'MedievalSharp', cursive",

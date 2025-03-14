@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-<<<<<<< HEAD
 import Sound from "react-sound";
 import bgMusic from "../assets/sound-effects/minigame-bg-music.mp3"; // Import background music
 import buttonClickSound from "../assets/sound-effects/riddle-button-click.mp3"; // Import button click sound
 import backButtonSound from "../assets/sound-effects/button-click.mp3"; // Import back button sound
-=======
 import backgroundImg from "../assets/images/bg99.jpg";
->>>>>>> e1d30398efeccd9fde27c9263ca7852101923308
 
 const MiniGamesMenuPage = () => {
   const navigate = useNavigate();

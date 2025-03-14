@@ -1,13 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GameContext } from "../context/GameContext";
-<<<<<<< HEAD
 import Sound from "react-sound";
 import bgMusic from "../assets/sound-effects/main-bg-music.mp3";
 import buttonClickSound from "../assets/sound-effects/levels-button-click.mp3";
-=======
 import backgroundImg from "../assets/images/bg77.jpg";
->>>>>>> e1d30398efeccd9fde27c9263ca7852101923308
 
 const LevelsPage = () => {
   const { unlockedLevels } = useContext(GameContext);
@@ -17,24 +14,17 @@ const LevelsPage = () => {
   const [playButtonSound, setPlayButtonSound] = useState(false);
 
   useEffect(() => {
-<<<<<<< HEAD
-    setPlayBackgroundMusic(true);
-=======
->>>>>>> e1d30398efeccd9fde27c9263ca7852101923308
-    setLevels(unlockedLevels?.length ? unlockedLevels : [1]);
-  }, [unlockedLevels]);
+  setPlayBackgroundMusic(true);
+}, []);
 
-  const handleLevelClick = (level) => {
-<<<<<<< HEAD
-    setPlayButtonSound(true);
-=======
->>>>>>> e1d30398efeccd9fde27c9263ca7852101923308
-    if (level === 1 || levels.includes(level)) {
-      setTimeout(() => {
-        navigate(`/riddle/${level}`);
-      }, 500); 
-    }
-  };
+const handleLevelClick = (level) => {
+  setPlayButtonSound(true);
+  if (level === 1 || levels.includes(level)) {
+    setTimeout(() => {
+      navigate(`/level/${level}`);
+    }, 500);
+  }
+};
 
   const renderLevelButton = (level) => {
     const isUnlocked = level === 1 || levels.includes(level);

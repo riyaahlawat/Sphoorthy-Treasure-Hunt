@@ -1,6 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GameContext } from "../context/GameContext";
+import Sound from "react-sound";
+import bgMusic from "../assets/sound-effects/riddle-bg-music.mp3";
+import submitSound from "../assets/sound-effects/riddle-button-click.mp3";
+import cluePowerUpSound from "../assets/sound-effects/riddle-cluepowerup-button.mp3";
+import backSound from "../assets/sound-effects/button-click.mp3";
 
 const RiddlePage = () => {
   const { powerUps, setPowerUps, unlockedLevels } = useContext(GameContext);
@@ -13,6 +18,10 @@ const RiddlePage = () => {
   const [showNoClues, setShowNoClues] = useState(false);
   const [clueIndex, setClueIndex] = useState(0);
   const [currentClue, setCurrentClue] = useState("");
+  const [playBackgroundMusic, setPlayBackgroundMusic] = useState(false);
+  const [playSubmitSound, setPlaySubmitSound] = useState(false);
+  const [playCluePowerUpSound, setPlayCluePowerUpSound] = useState(false);
+  const [playBackSound, setPlayBackSound] = useState(false);
 
   const riddles = {
     1: {
@@ -199,6 +208,9 @@ const RiddlePage = () => {
   const riddle = riddles[level];
 
   useEffect(() => {
+    // Start the background music when the component mounts
+    setPlayBackgroundMusic(true);
+
     // Check if the level is unlocked
     if (!unlockedLevels.includes(parseInt(level))) {
       alert("You haven't unlocked this level yet!");
@@ -229,169 +241,208 @@ const RiddlePage = () => {
   }, [level, navigate, unlockedLevels]);
 
   const checkAnswer = () => {
-    if (riddle.answers.includes(userAnswer.toLowerCase())) {
-      if (parseInt(level) === 20) {
-        navigate("/final-level-complete");
+    // Play the submit button sound
+    setPlaySubmitSound(true);
+    // Delay the answer check until the sound finishes playing
+    setTimeout(() => {
+      if (riddle.answers.includes(userAnswer.toLowerCase())) {
+        if (parseInt(level) === 20) {
+          navigate("/final-level-complete");
+        } else {
+          navigate(`/level-complete/${level}`);
+        }
       } else {
-        navigate(`/level-complete/${level}`);
+        alert("Wrong answer! Try again.");
       }
-    } else {
-      alert("Wrong answer! Try again.");
-    }
+    }, 500); // Adjust the delay to match the sound duration
   };
 
   const useClue = () => {
+    // Play the clue/powerup button sound
+    setPlayCluePowerUpSound(true);
+
     if (powerUps > 0 && clueIndex < 2) {
       const newIndex = clueIndex + 1;
       setClueIndex(newIndex);
       setCurrentClue(riddle.clues[newIndex - 1]);
-  
+
       // Store updated clueIndex in localStorage
       localStorage.setItem(`clueIndex-${level}`, newIndex);
-  
+
       navigate(`/riddle/${level}?clueIndex=${newIndex}`, { replace: true });
-  
+
       setPowerUps((prev) => prev - 1);
       setShowCluePopup(true);
-    } 
-    // Trigger "No Clues Left" popup correctly when clues are fully used
-    else if (clueIndex >= 2) {
+    } else if (clueIndex >= 2) {
       setShowNoClues(true);
-    } 
-    // Show "No Powerups" popup when out of powerups and clues are still available
-    else if (powerUps <= 0 && clueIndex < 2) {
+    } else if (powerUps <= 0 && clueIndex < 2) {
       setShowErrorPopup(true);
     }
   };
-  
 
   const getPowerUp = () => {
-    navigate(`/mini-games-menu?returnTo=${level}&clueIndex=${clueIndex}`); // Ensure clueIndex persists
+    setPlayCluePowerUpSound(true);
+    setTimeout(() => {
+      navigate(`/mini-games-menu?returnTo=${level}&clueIndex=${clueIndex}`);
+    }, 500);
+  };
+
+  const goBack = () => {
+    setPlayBackSound(true);
+    setTimeout(() => {
+      navigate("/levels-page");
+    }, 500);
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.overlay}>
-      <div style={styles.riddleCard}>
-        <h1 style={styles.title}>Level - {level}</h1>
-        <p style={styles.question}>{riddle.question}</p>
+        <div style={styles.riddleCard}>
+          <h1 style={styles.title}>Level - {level}</h1>
+          <p style={styles.question}>{riddle.question}</p>
 
-        <input
-          type="text"
-          value={userAnswer}
-          onChange={(e) => setUserAnswer(e.target.value)}
-          placeholder="Enter your answer here..."
-          style={styles.input}
-        />
+          <input
+            type="text"
+            value={userAnswer}
+            onChange={(e) => setUserAnswer(e.target.value)}
+            placeholder="Enter your answer here..."
+            style={styles.input}
+          />
 
-        <button onClick={checkAnswer} style={styles.submitButton}>
-          Submit
-        </button>
-
-        <p style={styles.clueText}>
-          Powerups available: {powerUps} | Clues used: {clueIndex}/2
-        </p>
-
-        <div style={styles.buttonContainer}>
-          <button
-            onClick={useClue}
-            style={styles.clueButton}
-          >
-            See Clues
+          <button onClick={checkAnswer} style={styles.submitButton}>
+            Submit
           </button>
 
-          <button onClick={getPowerUp} style={styles.powerupButton}>
-            Get Powerup
-          </button>
-        </div>
+          <p style={styles.clueText}>
+            Powerups available: {powerUps} | Clues used: {clueIndex}/2
+          </p>
 
-        <button
-          onClick={() => navigate("/levels-page")}
-          style={styles.backButton}
-        >
-          Back
-        </button>
+          <div style={styles.buttonContainer}>
+            <button onClick={useClue} style={styles.clueButton}>
+              See Clues
+            </button>
 
-        {/* Clue popup */}
-        {showCluePopup && (
-          <div style={styles.overlay}>
-            <div style={styles.popup}>
-              <h3 style={styles.clueTitle}>Clue #{clueIndex}</h3>
-              <p style={styles.clueContent}>{currentClue}</p>
-              <button
-                onClick={() => setShowCluePopup(false)}
-                style={styles.closeButton}
-              >
-                Got it!
-              </button>
-            </div>
+            <button onClick={getPowerUp} style={styles.powerupButton}>
+              Get Powerup
+            </button>
           </div>
-        )}
 
-        {/* Error popup for no powerups */}
-        {showErrorPopup && (
-          <div style={styles.overlay}>
-            <div style={styles.popup}>
-              <h3 style={styles.clueTitle}>No Powerups Available</h3>
-              <p style={styles.clueContent}>
-                You need to earn powerups to see clues. Play mini-games to earn
-                powerups!
-              </p>
-              <div style={styles.popupButtonContainer}>
+          <button onClick={goBack} style={styles.backButton}>
+            Back
+          </button>
+
+          {showCluePopup && (
+            <div style={styles.overlay}>
+              <div style={styles.popup}>
+                <h3 style={styles.clueTitle}>Clue #{clueIndex}</h3>
+                <p style={styles.clueContent}>{currentClue}</p>
                 <button
-                  onClick={() =>
-                    navigate(
-                      `/mini-games-menu?returnTo=${level}&clueIndex=${clueIndex}`
-                    )
-                  }
-                  style={styles.clueButton}
+                  onClick={() => {
+                    setPlayCluePowerUpSound(true); // Play the cluePowerUpSound
+                    setShowCluePopup(false); // Close the popup
+                  }}
+                  style={styles.closeButton}
                 >
-                  Play Mini-games
+                  Got it!
                 </button>
+              </div>
+            </div>
+          )}
+
+          {/* Error popup for no powerups */}
+          {showErrorPopup && (
+            <div style={styles.overlay}>
+              <div style={styles.popup}>
+                <h3 style={styles.clueTitle}>No Powerups Available</h3>
+                <p style={styles.clueContent}>
+                  You need to earn powerups to see clues. Play mini-games to earn
+                  powerups!
+                </p>
+                <div style={styles.popupButtonContainer}>
+                  <button
+                    onClick={() =>
+                      navigate(
+                        `/mini-games-menu?returnTo=${level}&clueIndex=${clueIndex}`
+                      )
+                    }
+                    style={styles.clueButton}
+                  >
+                    Play Mini-games
+                  </button>
+                  <button
+                    onClick={() => setShowErrorPopup(false)}
+                    style={styles.closeButton}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Power-up notification popup */}
+          {showPowerUpNotification && (
+            <div style={styles.notificationOverlay}>
+              <div style={styles.notificationPopup}>
+                <h3 style={styles.powerupTitle}>Power-Up Earned!</h3>
+                <p style={styles.powerupContent}>
+                  Congratulations! You have earned a new power-up.
+                  <br />
+                  Total power-ups: {powerUps}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* No Clues Left Popup */}
+          {showNoClues && (
+            <div style={styles.overlay}>
+              <div style={styles.popup}>
+                <h3 style={styles.clueTitle}>No Clues Left</h3>
+                <p style={styles.clueContent}>
+                  You've already used all available clues for this riddle.
+                </p>
                 <button
-                  onClick={() => setShowErrorPopup(false)}
+                  onClick={() => setShowNoClues(false)}
                   style={styles.closeButton}
                 >
                   Close
                 </button>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* Power-up notification popup */}
-        {showPowerUpNotification && (
-          <div style={styles.notificationOverlay}>
-            <div style={styles.notificationPopup}>
-              <h3 style={styles.powerupTitle}>Power-Up Earned!</h3>
-              <p style={styles.powerupContent}>
-                Congratulations! You have earned a new power-up.
-                <br />
-                Total power-ups: {powerUps}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* No Clues Left Popup */}
-        {showNoClues && (
-          <div style={styles.overlay}>
-            <div style={styles.popup}>
-              <h3 style={styles.clueTitle}>No Clues Left</h3>
-              <p style={styles.clueContent}>
-                You've already used all available clues for this riddle.
-              </p>
-              <button
-                onClick={() => setShowNoClues(false)}
-                style={styles.closeButton}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-      </div>
+      <Sound
+        url={bgMusic}
+        playStatus={playBackgroundMusic ? Sound.status.PLAYING : Sound.status.STOPPED}
+        loop={true} // Loop the background music
+        volume={50} // Adjust the volume (0 to 100)
+      />
+
+      {/* Submit Button Sound */}
+      <Sound
+        url={submitSound}
+        playStatus={playSubmitSound ? Sound.status.PLAYING : Sound.status.STOPPED}
+        onFinishedPlaying={() => setPlaySubmitSound(false)} // Reset the state after the sound finishes
+        volume={100} // Adjust the volume (0 to 100)
+      />
+
+      {/* Clue/Powerup Button Sound */}
+      <Sound
+        url={cluePowerUpSound}
+        playStatus={playCluePowerUpSound ? Sound.status.PLAYING : Sound.status.STOPPED}
+        onFinishedPlaying={() => setPlayCluePowerUpSound(false)} // Reset the state after the sound finishes
+        volume={100} // Adjust the volume (0 to 100)
+      />
+
+      {/* Back Button Sound */}
+      <Sound
+        url={backSound}
+        playStatus={playBackSound ? Sound.status.PLAYING : Sound.status.STOPPED}
+        onFinishedPlaying={() => setPlayBackSound(false)} // Reset the state after the sound finishes
+        volume={100} // Adjust the volume (0 to 100)
+      />
     </div>
   );
 };

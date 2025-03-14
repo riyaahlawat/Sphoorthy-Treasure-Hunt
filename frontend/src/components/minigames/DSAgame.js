@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { GameContext } from "../../context/GameContext";
+import backgroundImg from "../../assets/images/bg1212.jpg";
 
 const questions = [
   {
@@ -184,7 +185,7 @@ const DSAGame = () => {
 const styles = {
   container: {
     minHeight: "100vh",
-    backgroundImage: "url('/images/wallpaper1.jpg')",
+    backgroundImage: `url(${backgroundImg})`,
     backgroundColor: "#003F66",
     display: "flex",
     justifyContent: "center",

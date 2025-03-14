@@ -1,6 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { GameContext } from "../../context/GameContext";
+import Sound from "react-sound";
+import bgMusic from "../../assets/sound-effects/ind-minigame-bg-music.mp3"; // Import background music
+import submitSound from "../../assets/sound-effects/minigame-button-click.wav"; // Import submit button sound
+import backSound from "../../assets/sound-effects/button-click.mp3";
 
 const questions = [
   {
@@ -47,9 +51,12 @@ const SQLGame = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [feedback, setFeedback] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
-
-  // Choose a question that hasn't been answered yet
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
+
+  // Sound states
+  const [bgMusicStatus, setBgMusicStatus] = useState(Sound.status.STOPPED); // Background music
+  const [submitSoundStatus, setSubmitSoundStatus] = useState(Sound.status.STOPPED); // Submit sound
+  const [backSoundStatus, setBackSoundStatus] = useState(Sound.status.STOPPED); // Back sound
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -73,37 +80,53 @@ const SQLGame = () => {
       const originalIndex = questions.indexOf(availableQuestions[randomIndex]);
       setCurrentQuestionIndex(originalIndex);
     }
+
+    // Start background music after user interaction
+    const handleUserInteraction = () => {
+      setBgMusicStatus(Sound.status.PLAYING);
+      window.removeEventListener("click", handleUserInteraction);
+    };
+
+    window.addEventListener("click", handleUserInteraction);
+
+    return () => {
+      window.removeEventListener("click", handleUserInteraction);
+    };
   }, [answeredQuestions, setAnsweredQuestions, location.search]);
 
   const handleSubmit = () => {
     if (selectedOption === null) return;
+
+    // Play submit sound
+    setSubmitSoundStatus(Sound.status.PLAYING);
+
     if (selectedOption === questions[currentQuestionIndex].answer) {
       if (setAnsweredQuestions)
         setAnsweredQuestions([...answeredQuestions, currentQuestionIndex]);
-      if (setPowerUps) setPowerUps((prevPowerUps) => prevPowerUps + 1); // Increment power-up count
-  
+      if (setPowerUps) setPowerUps((prevPowerUps) => prevPowerUps + 1);
+
       setFeedback("Correct! You earned a power-up!");
       setShowSuccess(true);
-  
-      // Get the correct return level
+
       const params = new URLSearchParams(location.search);
       const returnToLevel = params.get("returnTo") || "1";
-  
+
       setTimeout(() => {
-        navigate(`/riddle/${returnToLevel}?powerUpEarned=true`); // Ensure correct return level
+        navigate(`/riddle/${returnToLevel}?powerUpEarned=true`);
       }, 2000);
     } else {
       setFeedback("Incorrect. Try again!");
     }
   };
-  
 
   const handleBack = () => {
+    // Play back sound
+    setBackSoundStatus(Sound.status.PLAYING);
+
     const params = new URLSearchParams(location.search);
-    const returnToLevel = params.get("returnTo") || "1"; // Default to level 1 if missing
-    navigate(`/mini-games-menu?returnTo=${returnToLevel}`); // Go back with correct level
+    const returnToLevel = params.get("returnTo") || "1";
+    navigate(`/mini-games-menu?returnTo=${returnToLevel}`);
   };
-  
 
   if (currentQuestionIndex === null) {
     return <div style={styles.container}>Loading...</div>;
@@ -111,6 +134,30 @@ const SQLGame = () => {
 
   return (
     <div className="dsa-game-container" style={styles.container}>
+      {/* Background Music */}
+      <Sound
+        url={bgMusic}
+        playStatus={bgMusicStatus}
+        onFinishedPlaying={() => setBgMusicStatus(Sound.status.PLAYING)} // Loop the music
+        volume={50} // Set volume to 50%
+      />
+
+      {/* Submit Sound */}
+      <Sound
+        url={submitSound}
+        playStatus={submitSoundStatus}
+        onFinishedPlaying={() => setSubmitSoundStatus(Sound.status.STOPPED)} // Stop after playing
+        volume={100}
+      />
+
+      {/* Back Sound */}
+      <Sound
+        url={backSound}
+        playStatus={backSoundStatus}
+        onFinishedPlaying={() => setBackSoundStatus(Sound.status.STOPPED)} // Stop after playing
+        volume={100}
+      />
+
       <div className="game-box" style={styles.gameBox}>
         <h2 style={styles.title}>Data Structure Challenge</h2>
         <p style={styles.story}>{questions[currentQuestionIndex].story}</p>

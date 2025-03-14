@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { GameContext } from "../../context/GameContext";
+import backgroundImg from "../../assets/images/bg1212.jpg";
 
 const questions = [
   {
@@ -211,8 +212,12 @@ const BitwiseGame = () => {
 const styles = {
   container: {
     minHeight: "100vh",
-    backgroundImage: "url('/images/wallpaper1.jpg')",
-    backgroundColor: "#003F66",
+    opacity: 0.9,
+    backgroundImage: `url(${backgroundImg})`,
+    backgroundColor: "#003F66", // Base color if image doesn't load
+    backgroundRepeat: "no-repeat", // Prevents repetition
+    backgroundSize: "cover", // Ensures the image covers the full screen
+    backgroundPosition: "center", // Centers the image properly
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

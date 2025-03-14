@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import backgroundImg from "../assets/images/bg99.jpg";
 
 const MiniGamesMenuPage = () => {
   const navigate = useNavigate();
@@ -74,8 +75,13 @@ const MiniGamesMenuPage = () => {
 const styles = {
   container: {
     minHeight: "100vh",
-    backgroundColor: "#003F66",
-    backgroundImage: "url('/images/wallpaper1.jpg')",
+    opacity: 0.9,
+    backgroundColor: "rgba(139, 69, 19, 0.3)", // Brown tint overlay
+    backgroundImage: `url(${backgroundImg})`,
+    backgroundBlendMode: "overlay", // Blends background color with image
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

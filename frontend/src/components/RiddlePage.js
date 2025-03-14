@@ -1,6 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GameContext } from "../context/GameContext";
+import backgroundImg from "../assets/images/bg11.b.jpg";
+import neutralImg from "../assets/images/neutral.png";
+import sadImg from "../assets/images/sad.png";
+import happyImg from "../assets/images/happy.png";
 
 const RiddlePage = () => {
   const { powerUps, setPowerUps, unlockedLevels } = useContext(GameContext);
@@ -13,6 +17,9 @@ const RiddlePage = () => {
   const [showNoClues, setShowNoClues] = useState(false);
   const [clueIndex, setClueIndex] = useState(0);
   const [currentClue, setCurrentClue] = useState("");
+  const [feedback, setFeedback] = useState("");
+  const [imageSrc, setImageSrc] = useState(neutralImg); // Default to neutral image
+
 
   const riddles = {
     1: {
@@ -228,17 +235,27 @@ const RiddlePage = () => {
     window.history.replaceState({}, document.title, window.location.pathname);
   }, [level, navigate, unlockedLevels]);
 
+
+
   const checkAnswer = () => {
     if (riddle.answers.includes(userAnswer.toLowerCase())) {
-      if (parseInt(level) === 20) {
-        navigate("/final-level-complete");
-      } else {
-        navigate(`/level-complete/${level}`);
-      }
+      setImageSrc(happyImg); // Change image to happy.png on correct answer
+      setFeedback("Correct! You solved the riddle!");
+      // Navigate to next level or completion page
+      setTimeout(() => {
+        if (parseInt(level) === 20) {
+          navigate("/final-level-complete");
+        } else {
+          navigate(`/level-complete/${level}`);
+        }
+      }, 1500);
     } else {
-      alert("Wrong answer! Try again.");
+      setImageSrc(sadImg); // Change image to sad.png on wrong answer
+      setFeedback("Oops! Wrong answer. Try again.");
     }
   };
+  
+  
 
   const useClue = () => {
     if (powerUps > 0 && clueIndex < 2) {
@@ -271,137 +288,139 @@ const RiddlePage = () => {
 
   return (
     <div style={styles.container}>
+      {/* Image positioned at the bottom left */}
+      <div style={styles.imageContainer}>
+        <img src={imageSrc} alt="Feedback" style={styles.feedbackImage} />
+      </div>
+
+      {/* Overlay and Riddle Card */}
       <div style={styles.overlay}>
-      <div style={styles.riddleCard}>
-        <h1 style={styles.title}>Level - {level}</h1>
-        <p style={styles.question}>{riddle.question}</p>
+        <div style={styles.riddleCard}>
+          <h1 style={styles.title}>Level - {level}</h1>
+          <p style={styles.question}>{riddle.question}</p>
 
-        <input
-          type="text"
-          value={userAnswer}
-          onChange={(e) => setUserAnswer(e.target.value)}
-          placeholder="Enter your answer here..."
-          style={styles.input}
-        />
+          <input
+            type="text"
+            value={userAnswer}
+            onChange={(e) => setUserAnswer(e.target.value)}
+            placeholder="Enter your answer here..."
+            style={styles.input}
+          />
 
-        <button onClick={checkAnswer} style={styles.submitButton}>
-          Submit
-        </button>
-
-        <p style={styles.clueText}>
-          Powerups available: {powerUps} | Clues used: {clueIndex}/2
-        </p>
-
-        <div style={styles.buttonContainer}>
-          <button
-            onClick={useClue}
-            style={styles.clueButton}
-          >
-            See Clues
+          <button onClick={checkAnswer} style={styles.submitButton}>
+            Submit
           </button>
 
-          <button onClick={getPowerUp} style={styles.powerupButton}>
-            Get Powerup
-          </button>
-        </div>
+          {feedback && <p style={styles.feedbackText}>{feedback}</p>}
 
-        <button
-          onClick={() => navigate("/levels-page")}
-          style={styles.backButton}
-        >
-          Back
-        </button>
+          <p style={styles.clueText}>
+            Powerups available: {powerUps} | Clues used: {clueIndex}/2
+          </p>
 
-        {/* Clue popup */}
-        {showCluePopup && (
-          <div style={styles.overlay}>
-            <div style={styles.popup}>
-              <h3 style={styles.clueTitle}>Clue #{clueIndex}</h3>
-              <p style={styles.clueContent}>{currentClue}</p>
-              <button
-                onClick={() => setShowCluePopup(false)}
-                style={styles.closeButton}
-              >
-                Got it!
-              </button>
-            </div>
+          <div style={styles.buttonContainer}>
+            <button onClick={useClue} style={styles.clueButton}>
+              See Clues
+            </button>
+            <button onClick={getPowerUp} style={styles.powerupButton}>
+              Get Powerup
+            </button>
           </div>
-        )}
 
-        {/* Error popup for no powerups */}
-        {showErrorPopup && (
-          <div style={styles.overlay}>
-            <div style={styles.popup}>
-              <h3 style={styles.clueTitle}>No Powerups Available</h3>
-              <p style={styles.clueContent}>
-                You need to earn powerups to see clues. Play mini-games to earn
-                powerups!
-              </p>
-              <div style={styles.popupButtonContainer}>
+          <button
+            onClick={() => navigate("/levels-page")}
+            style={styles.backButton}
+          >
+            Back
+          </button>
+
+          {/* Popups (unchanged) */}
+          {showCluePopup && (
+            <div style={styles.overlay}>
+              <div style={styles.popup}>
+                <h3 style={styles.clueTitle}>Clue #{clueIndex}</h3>
+                <p style={styles.clueContent}>{currentClue}</p>
                 <button
-                  onClick={() =>
-                    navigate(
-                      `/mini-games-menu?returnTo=${level}&clueIndex=${clueIndex}`
-                    )
-                  }
-                  style={styles.clueButton}
+                  onClick={() => setShowCluePopup(false)}
+                  style={styles.closeButton}
                 >
-                  Play Mini-games
+                  Got it!
                 </button>
+              </div>
+            </div>
+          )}
+
+          {showErrorPopup && (
+            <div style={styles.overlay}>
+              <div style={styles.popup}>
+                <h3 style={styles.clueTitle}>No Powerups Available</h3>
+                <p style={styles.clueContent}>
+                  You need to earn powerups to see clues. Play mini-games to earn
+                  powerups!
+                </p>
+                <div style={styles.popupButtonContainer}>
+                  <button
+                    onClick={() =>
+                      navigate(
+                        `/mini-games-menu?returnTo=${level}&clueIndex=${clueIndex}`
+                      )
+                    }
+                    style={styles.clueButton}
+                  >
+                    Play Mini-games
+                  </button>
+                  <button
+                    onClick={() => setShowErrorPopup(false)}
+                    style={styles.closeButton}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {showPowerUpNotification && (
+            <div style={styles.notificationOverlay}>
+              <div style={styles.notificationPopup}>
+                <h3 style={styles.powerupTitle}>Power-Up Earned!</h3>
+                <p style={styles.powerupContent}>
+                  Congratulations! You have earned a new power-up.
+                  <br />
+                  Total power-ups: {powerUps}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {showNoClues && (
+            <div style={styles.overlay}>
+              <div style={styles.popup}>
+                <h3 style={styles.clueTitle}>No Clues Left</h3>
+                <p style={styles.clueContent}>
+                  You've already used all available clues for this riddle.
+                </p>
                 <button
-                  onClick={() => setShowErrorPopup(false)}
+                  onClick={() => setShowNoClues(false)}
                   style={styles.closeButton}
                 >
                   Close
                 </button>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* Power-up notification popup */}
-        {showPowerUpNotification && (
-          <div style={styles.notificationOverlay}>
-            <div style={styles.notificationPopup}>
-              <h3 style={styles.powerupTitle}>Power-Up Earned!</h3>
-              <p style={styles.powerupContent}>
-                Congratulations! You have earned a new power-up.
-                <br />
-                Total power-ups: {powerUps}
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* No Clues Left Popup */}
-        {showNoClues && (
-          <div style={styles.overlay}>
-            <div style={styles.popup}>
-              <h3 style={styles.clueTitle}>No Clues Left</h3>
-              <p style={styles.clueContent}>
-                You've already used all available clues for this riddle.
-              </p>
-              <button
-                onClick={() => setShowNoClues(false)}
-                style={styles.closeButton}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
       </div>
     </div>
   );
 };
+
 
 const styles = {
   container: {
     position: "relative",
     minHeight: "100vh",
     backgroundColor: "#003F66",
-    backgroundImage: "url('/images/wallpaper1.jpg')",
+    backgroundImage: `url(${backgroundImg})`,
     backgroundSize: "cover",
     backgroundPosition: "center",
     display: "flex",
@@ -409,110 +428,19 @@ const styles = {
     alignItems: "center",
     padding: "20px",
     overflow: "hidden",
-    "&::before": {
-      content: '""',
-      position: "absolute",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: "rgba(101, 67, 33, 0.7)", // Translucent brown
-      zIndex: 1, // Ensure it's above the background image but below the content
-    },
   },
-  riddleCard: {
-    backgroundColor: "#1C1C1C", // Black
-    padding: "40px",
-    borderRadius: "15px",
-    maxWidth: "600px",
-    width: "100%",
-    border: "2px solid #FFC72C", // Yellow
-    position: "relative", // Ensure it's above the overlay
-    zIndex: 2, // Ensure it's above the overlay
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center", // Center-align content horizontally
+  imageContainer: {
+    position: "fixed",
+    bottom: "20px",
+    left: "20px",
+    zIndex: 2, // Ensure the image is above the overlay
   },
-  title: {
-    color: "#FFC72C", // Yellow
-    fontSize: "2rem",
-    marginBottom: "20px",
-    textAlign: "center",
-  },
-  question: {
-    color: "#FFC72C", // Yellow
-    fontSize: "1.2rem",
-    marginBottom: "30px",
-    lineHeight: "1.6",
-    textAlign: "center",
-    fontFamily: "'MedievalSharp', cursive", // MedievalSharp font
-  },
-  input: {
-    width: "100%", // Full width to match submit button
-    padding: "10px 1px",
-    fontSize: "1rem",
-    backgroundColor: "transparent",
-    border: "2px solid #FFC72C", // Yellow
-    borderRadius: "5px",
-    color: "#FFC72C", // Yellow
-    marginBottom: "20px",
-    textAlign: "center", // Center-align text
-  },
-  submitButton: {
-    backgroundColor: "#FFC72C", // Yellow
-    color: "black",
-    padding: "10px 30px",
-    border: "none",
-    borderRadius: "5px",
-    fontSize: "1.1rem",
-    cursor: "pointer",
-    marginBottom: "20px",
-    width: "100%", // Full width to match input box
-    textAlign: "center", // Center-align text
-  },
-  buttonContainer: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "20px",
-    marginBottom: "20px",
-    width: "100%", // Ensure the container takes full width
-  },
-  clueButton: {
-    backgroundColor: "#004F6D", // Teal Blue
-    color: "white",
-    padding: "10px 20px",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    flex: 1, // Equal width for both buttons
-    width: "100%", // Full width within the container
-  },
-  powerupButton: {
-    backgroundColor: "#001EFF", // Royal Blue
-    color: "white",
-    padding: "10px 20px",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    flex: 1, // Equal width for both buttons
-    width: "100%", // Full width within the container
-  },
-  backButton: {
-    backgroundColor: "#8B0000", // Dark Red
-    color: "white",
-    padding: "10px 20px",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    width: "100%", // Full width to match combined width of clue and powerup buttons
-  },
-  clueText: {
-    color: "#FFC72C", // Yellow
-    marginBottom: "10px",
-    textAlign: "center",
-    fontFamily: "'MedievalSharp', cursive", // MedievalSharp font
+  feedbackImage: {
+    width: "280px", // Adjust as needed
+    height: "280px", // Adjust as needed
   },
   overlay: {
+    opacity: 0.9,
     position: "fixed",
     top: 0,
     left: 0,
@@ -523,27 +451,124 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
   },
+  riddleCard: {
+    backgroundColor: "#1C1C1C",
+    padding: "40px",
+    borderRadius: "15px",
+    maxWidth: "600px",
+    width: "100%",
+    border: "2px solid #FFC72C",
+    position: "relative",
+    zIndex: 2,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  title: {
+    color: "#FFC72C",
+    fontSize: "2rem",
+    marginBottom: "20px",
+    textAlign: "center",
+  },
+  question: {
+    color: "#FFC72C",
+    fontSize: "1.2rem",
+    marginBottom: "30px",
+    lineHeight: "1.6",
+    textAlign: "center",
+    fontFamily: "'MedievalSharp', cursive",
+  },
+  input: {
+    width: "100%",
+    padding: "10px 1px",
+    fontSize: "1rem",
+    backgroundColor: "transparent",
+    border: "2px solid #FFC72C",
+    borderRadius: "5px",
+    color: "#FFC72C",
+    marginBottom: "20px",
+    textAlign: "center",
+  },
+  submitButton: {
+    backgroundColor: "#FFC72C",
+    color: "black",
+    padding: "10px 30px",
+    border: "none",
+    borderRadius: "5px",
+    fontSize: "1.1rem",
+    cursor: "pointer",
+    marginBottom: "20px",
+    width: "100%",
+    textAlign: "center",
+  },
+  feedbackText: {
+    color: "#FFC72C",
+    fontSize: "1.2rem",
+    textAlign: "center",
+  },
+  clueText: {
+    color: "#FFC72C",
+    marginBottom: "10px",
+    textAlign: "center",
+    fontFamily: "'MedievalSharp', cursive",
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "20px",
+    marginBottom: "20px",
+    width: "100%",
+  },
+  clueButton: {
+    backgroundColor: "#004F6D",
+    color: "white",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    flex: 1,
+    width: "100%",
+  },
+  powerupButton: {
+    backgroundColor: "#001EFF",
+    color: "white",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    flex: 1,
+    width: "100%",
+  },
+  backButton: {
+    backgroundColor: "#8B0000",
+    color: "white",
+    padding: "10px 20px",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    width: "100%",
+  },
   popup: {
-    backgroundColor: "#1C1C1C", // Black
+    backgroundColor: "#1C1C1C",
     padding: "20px",
     borderRadius: "10px",
-    border: "2px solid #FFC72C", // Yellow
-    color: "#FFC72C", // Yellow
+    border: "2px solid #FFC72C",
+    color: "#FFC72C",
     maxWidth: "400px",
     width: "90%",
     textAlign: "center",
   },
   clueTitle: {
-    color: "#FFC72C", // Yellow
+    color: "#FFC72C",
     marginBottom: "15px",
   },
   clueContent: {
-    color: "#FFC72C", // Yellow
+    color: "#FFC72C",
     marginBottom: "20px",
     fontFamily: "'MedievalSharp', cursive",
   },
   closeButton: {
-    backgroundColor: "#8B0000", // Dark Red
+    backgroundColor: "#8B0000",
     color: "white",
     padding: "8px 20px",
     border: "none",
@@ -562,22 +587,22 @@ const styles = {
     zIndex: 1000,
   },
   notificationPopup: {
-    backgroundColor: "#004F6D", // Teal Blue
+    backgroundColor: "#004F6D",
     padding: "15px",
     borderRadius: "10px",
-    border: "2px solid #FFC72C", // Yellow
-    color: "#FFC72C", // Yellow
+    border: "2px solid #FFC72C",
+    color: "#FFC72C",
     maxWidth: "300px",
     textAlign: "center",
     animation: "fadeInOut 3s forwards",
   },
   powerupTitle: {
-    color: "#FFC72C", // Yellow
+    color: "#FFC72C",
     marginBottom: "10px",
     fontSize: "1.2rem",
   },
   powerupContent: {
-    color: "#FFC72C", // Yellow
+    color: "#FFC72C",
     fontSize: "1rem",
     lineHeight: "1.4",
     fontFamily: "'MedievalSharp', cursive",

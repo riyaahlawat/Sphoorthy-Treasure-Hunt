@@ -1,6 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { GameContext } from "../../context/GameContext";
+import Sound from "react-sound";
+import bgMusic from "../../assets/sound-effects/ind-minigame-bg-music.mp3"; // Import background music
+import submitSound from "../../assets/sound-effects/minigame-button-click.wav"; // Import submit button sound
+import backSound from "../../assets/sound-effects/button-click.mp3";
 
 const questions = [
   {
@@ -228,7 +232,7 @@ const SQLGame = () => {
 const styles = {
   container: {
     minHeight: "100vh",
-    backgroundImage: `url(${backgroundImg})`,
+    backgroundImage: "url('/images/wallpaper1.jpg')",
     backgroundColor: "#003F66",
     display: "flex",
     justifyContent: "center",

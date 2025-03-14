@@ -1,6 +1,10 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { GameContext } from "../../context/GameContext";
+import Sound from "react-sound";
+import bgMusic from "../../assets/sound-effects/ind-minigame-bg-music.mp3"; // Import background music
+import submitSound from "../../assets/sound-effects/minigame-button-click.wav"; // Import submit button sound
+import backSound from "../../assets/sound-effects/button-click.mp3";
 
 const questions = [
   {
@@ -28,6 +32,28 @@ const CryptogramGame = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(null);
   const [userAnswer, setUserAnswer] = useState("");
+  const [playBackgroundMusic, setPlayBackgroundMusic] = useState(false);
+  const [playSubmitSound, setPlaySubmitSound] = useState(false);
+  const [playBackSound, setPlayBackSound] = useState(false);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
+
+  // Simulate user interaction to allow audio playback
+  const handleUserInteraction = () => {
+    if (!hasUserInteracted) {
+      setHasUserInteracted(true);
+      setPlayBackgroundMusic(true); // Start the background music
+    }
+  };
+
+  useEffect(() => {
+    // Add an event listener for user interaction
+    window.addEventListener("click", handleUserInteraction);
+
+    // Cleanup the event listener
+    return () => {
+      window.removeEventListener("click", handleUserInteraction);
+    };
+  }, [hasUserInteracted]);
 
   useEffect(() => {
     const safeAnsweredQuestions = Array.isArray(answeredQuestions)
@@ -49,6 +75,10 @@ const CryptogramGame = () => {
 
   const handleSubmit = () => {
     if (!userAnswer) return;
+
+    // Play the submit button sound
+    setPlaySubmitSound(true);
+
     if (userAnswer.toUpperCase() === questions[currentQuestionIndex].answer) {
       if (setAnsweredQuestions)
         setAnsweredQuestions([...answeredQuestions, currentQuestionIndex]);
@@ -67,16 +97,22 @@ const CryptogramGame = () => {
   };
 
   const handleBack = () => {
-    const params = new URLSearchParams(location.search);
-    const returnToLevel = params.get("returnTo") || "1"; // Default to level 1 if missing
-    navigate(`/mini-games-menu?returnTo=${returnToLevel}`); // Go back with correct level
+    // Play the back button sound
+    setPlayBackSound(true);
+
+    // Navigate back after a short delay
+    setTimeout(() => {
+      const params = new URLSearchParams(location.search);
+      const returnToLevel = params.get("returnTo") || "1"; // Default to level 1 if missing
+      navigate(`/mini-games-menu?returnTo=${returnToLevel}`); // Go back with correct level
+    }, 500); // Adjust the delay to match the sound duration
   };
 
   if (currentQuestionIndex === null) return <div>Loading...</div>;
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className="cryptogram-game-container" style={styles.container}>
+    <div className="cryptogram-game-container" style={styles.container} onClick={handleUserInteraction}>
       <div className="game-box" style={styles.gameBox}>
         <h3 style={styles.title}>{currentQuestion.title}</h3>
         <p style={styles.question}><b>Encrypted:</b> {currentQuestion.encrypted}</p>
@@ -111,6 +147,30 @@ const CryptogramGame = () => {
           </div>
         </div>
       )}
+
+      {/* Background Music */}
+      <Sound
+        url={bgMusic}
+        playStatus={playBackgroundMusic ? Sound.status.PLAYING : Sound.status.STOPPED}
+        loop={true} // Loop the background music
+        volume={50} // Adjust the volume (0 to 100)
+      />
+
+      {/* Submit Button Sound */}
+      <Sound
+        url={submitSound}
+        playStatus={playSubmitSound ? Sound.status.PLAYING : Sound.status.STOPPED}
+        onFinishedPlaying={() => setPlaySubmitSound(false)} // Reset the state after the sound finishes
+        volume={100} // Adjust the volume (0 to 100)
+      />
+
+      {/* Back Button Sound */}
+      <Sound
+        url={backSound}
+        playStatus={playBackSound ? Sound.status.PLAYING : Sound.status.STOPPED}
+        onFinishedPlaying={() => setPlayBackSound(false)} // Reset the state after the sound finishes
+        volume={100} // Adjust the volume (0 to 100)
+      />
     </div>
   );
 };

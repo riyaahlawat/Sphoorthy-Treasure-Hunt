@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './StartPage.css';  // Importing the CSS file
+import './StartPage.css';
 
 function StoryPage() {
   const navigate = useNavigate();
@@ -11,9 +11,8 @@ function StoryPage() {
 
   return (
     <div className="start-page-container">
-      <div className="overlay"></div>  {/* Dark overlay on the background */}
+      <div className="overlay"></div> 
       <div className="hero-container">
-        {/* Map Image at Top Left */}
         <img src="/images/map.png" alt="Map" className="map-image" />
 
 
@@ -35,8 +34,6 @@ function StoryPage() {
         <button className="go-button" onClick={goToLevelsPage}>
           Begin Your Quest
         </button>
-
-        {/* Treasure Box at Bottom Right */}
         <img src="/images/treasure.png" alt="Treasure Box" className="treasure-box" />
       </div>
     </div>

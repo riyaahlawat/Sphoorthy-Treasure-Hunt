@@ -1,28 +1,34 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GameContext } from "../context/GameContext";
+import Sound from "react-sound";
+import bgMusic from "../assets/sound-effects/main-bg-music.mp3";
+import buttonClickSound from "../assets/sound-effects/levels-button-click.mp3";
 
 const LevelsPage = () => {
   const { unlockedLevels } = useContext(GameContext);
   const navigate = useNavigate();
-  const [levels, setLevels] = useState([1]); // Initialize with level 1 unlocked
+  const [levels, setLevels] = useState([1]);
+  const [playBackgroundMusic, setPlayBackgroundMusic] = useState(false);
+  const [playButtonSound, setPlayButtonSound] = useState(false);
 
   useEffect(() => {
-    // Initialize with level 1 if no levels are unlocked
+    setPlayBackgroundMusic(true);
     setLevels(unlockedLevels?.length ? unlockedLevels : [1]);
   }, [unlockedLevels]);
 
   const handleLevelClick = (level) => {
-    // Check if it's level 1 (always accessible) or if the level is unlocked
+    setPlayButtonSound(true);
     if (level === 1 || levels.includes(level)) {
-      navigate(`/riddle/${level}`);
+      setTimeout(() => {
+        navigate(`/riddle/${level}`);
+      }, 500); 
     }
   };
 
   const renderLevelButton = (level) => {
-    // Level 1 is always unlocked, other levels depend on unlocked state
     const isUnlocked = level === 1 || levels.includes(level);
-    
+
     return (
       <button
         key={level}
@@ -45,6 +51,18 @@ const LevelsPage = () => {
       <div style={styles.levelsGrid}>
         {Array.from({ length: 20 }, (_, index) => renderLevelButton(index + 1))}
       </div>
+      <Sound
+        url={bgMusic}
+        playStatus={playBackgroundMusic ? Sound.status.PLAYING : Sound.status.STOPPED}
+        loop={true}
+        volume={50}
+      />
+      <Sound
+        url={buttonClickSound}
+        playStatus={playButtonSound ? Sound.status.PLAYING : Sound.status.STOPPED}
+        onFinishedPlaying={() => setPlayButtonSound(false)}
+        volume={100}
+      />
     </div>
   );
 };

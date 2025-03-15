@@ -21,7 +21,7 @@ const handleLevelClick = (level) => {
   setPlayButtonSound(true);
   if (level === 1 || levels.includes(level)) {
     setTimeout(() => {
-      navigate(`/level/${level}`);
+      navigate(`/riddle/${level}`);
     }, 500);
   }
 };

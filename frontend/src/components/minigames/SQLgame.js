@@ -2,45 +2,36 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { GameContext } from "../../context/GameContext";
 import Sound from "react-sound";
-import bgMusic from "../../assets/sound-effects/ind-minigame-bg-music.mp3"; // Import background music
-import submitSound from "../../assets/sound-effects/minigame-button-click.wav"; // Import submit button sound
+import bgMusic from "../../assets/sound-effects/ind-minigame-bg-music.mp3";
+import submitSound from "../../assets/sound-effects/minigame-button-click.wav";
 import backSound from "../../assets/sound-effects/button-click.mp3";
 
 const questions = [
   {
-    story:
-    "FROM users SELECT name, email WHERE active = 1;\n ",
+    story: "FROM users SELECT name, email WHERE active = 1;\n ",
     question: "Players must fix the query to retrieve the correct user data.",
     answer: "SELECT name, email FROM users WHERE active = 1;",
     options: [
-    "SELECT name, email FROM users WHERE active = 1;",
-    "SELECT * FROM users WHERE active = 1;",
-    "SELECT name, email FROM users;",
-    "SELECT name, email WHERE active = 1;",
+      "SELECT name, email FROM users WHERE active = 1;",
+      "SELECT * FROM users WHERE active = 1;",
+      "SELECT name, email FROM users;",
+      "SELECT name, email WHERE active = 1;",
     ],
-    },
-    {
-      story: "A database administrator needs to uniquely identify each record in a table to ensure data integrity.",
-      question: "What is the primary key?",
-      answer: "Unique identifier",
-      options: [
-        "Unique identifier",
-        "Foreign key",
-        "Data type",
-        "Index"
-      ],
-    },
-    {
-      story: "A data analyst is retrieving records from a large database and needs to filter results based on a specific condition.",
-      question: "Which SQL clause is used to filter results?",
-      answer: "WHERE",
-      options: [
-        "WHERE",
-        "ORDER BY",
-        "GROUP BY",
-        "HAVING"
-      ],
-    },
+  },
+  {
+    story:
+      "A database administrator needs to uniquely identify each record in a table to ensure data integrity.",
+    question: "What is the primary key?",
+    answer: "Unique identifier",
+    options: ["Unique identifier", "Foreign key", "Data type", "Index"],
+  },
+  {
+    story:
+      "A data analyst is retrieving records from a large database and needs to filter results based on a specific condition.",
+    question: "Which SQL clause is used to filter results?",
+    answer: "WHERE",
+    options: ["WHERE", "ORDER BY", "GROUP BY", "HAVING"],
+  },
 ];
 
 const SQLGame = () => {
@@ -123,9 +114,12 @@ const SQLGame = () => {
     // Play back sound
     setBackSoundStatus(Sound.status.PLAYING);
 
-    const params = new URLSearchParams(location.search);
-    const returnToLevel = params.get("returnTo") || "1";
-    navigate(`/mini-games-menu?returnTo=${returnToLevel}`);
+    // Delay navigation until the sound has finished playing
+    setTimeout(() => {
+      const params = new URLSearchParams(location.search);
+      const returnToLevel = params.get("returnTo") || "1";
+      navigate(`/mini-games-menu?returnTo=${returnToLevel}`);
+    }, 500); // Adjust the delay to match the sound duration
   };
 
   if (currentQuestionIndex === null) {
@@ -220,7 +214,9 @@ const SQLGame = () => {
           <div style={styles.popup}>
             <h3 style={styles.popupTitle}>Success!</h3>
             <p style={styles.popupContent}>
-              You've earned a power-up! Redirecting...
+            You've earned a power-up!
+              <br />
+              Redirecting to the riddle page...
             </p>
           </div>
         </div>
@@ -352,6 +348,7 @@ const styles = {
     marginTop: "20px",
     fontSize: "1.2rem",
     textAlign: "center",
+    fontFamily: "'MedievalSharp', cursive",
   },
   overlay: {
     position: "fixed",
@@ -382,6 +379,7 @@ const styles = {
     color: "#FFD700",
     marginBottom: "20px",
     lineHeight: "1.6",
+    fontFamily: "'MedievalSharp', cursive",
   },
   story: {
     color: "#FFD700",
@@ -392,4 +390,3 @@ const styles = {
 };
 
 export default SQLGame;
-

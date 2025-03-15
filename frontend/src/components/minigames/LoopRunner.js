@@ -311,6 +311,7 @@ const styles = {
     marginTop: "20px",
     fontSize: "1.2rem",
     textAlign: "center",
+    fontFamily: "'MedievalSharp', cursive",
   },
   overlay: {
     position: "fixed",
@@ -341,6 +342,7 @@ const styles = {
     color: "#FFD700",
     marginBottom: "20px",
     lineHeight: "1.6",
+    fontFamily: "'MedievalSharp', cursive",
   },
 };
 

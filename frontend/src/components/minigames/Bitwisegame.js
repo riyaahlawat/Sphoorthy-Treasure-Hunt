@@ -237,7 +237,9 @@ const BitwiseGame = () => {
           <div style={styles.popup}>
             <h3 style={styles.popupTitle}>Success!</h3>
             <p style={styles.popupContent}>
-              You've earned a power-up! Redirecting...
+            You've earned a power-up!
+              <br />
+              Redirecting to the riddle page...
             </p>
           </div>
         </div>
@@ -398,6 +400,7 @@ const styles = {
     marginTop: "20px",
     fontSize: "1.2rem",
     textAlign: "center",
+    fontFamily: "'MedievalSharp', cursive",
   },
   overlay: {
     position: "fixed",
@@ -428,6 +431,7 @@ const styles = {
     color: "#FFD700",
     marginBottom: "20px",
     lineHeight: "1.6",
+    fontFamily: "'MedievalSharp', cursive",
   },
 };
 

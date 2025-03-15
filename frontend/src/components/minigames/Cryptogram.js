@@ -2,8 +2,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { GameContext } from "../../context/GameContext";
 import Sound from "react-sound";
-import bgMusic from "../../assets/sound-effects/ind-minigame-bg-music.mp3"; // Import background music
-import submitSound from "../../assets/sound-effects/minigame-button-click.wav"; // Import submit button sound
+import bgMusic from "../../assets/sound-effects/ind-minigame-bg-music.mp3";
+import submitSound from "../../assets/sound-effects/minigame-button-click.wav";
 import backSound from "../../assets/sound-effects/button-click.mp3";
 import backgroundImg from "../../assets/images/bg1212.jpg";
 
@@ -141,9 +141,9 @@ const CryptogramGame = () => {
           <div style={styles.popup}>
             <h3 style={styles.popupTitle}>Success!</h3>
             <p style={styles.popupContent}>
-              You've earned a power-up!
+            You've earned a power-up!
               <br />
-              Redirecting...
+              Redirecting to the riddle page...
             </p>
           </div>
         </div>
@@ -277,9 +277,10 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    zIndex: 1000, // Ensure it's above other content
   },
   popup: {
-    backgroundColor: "#2F4F4F",
+    backgroundColor: "#2F4F4F", // Solid background color for the popup
     padding: "20px",
     borderRadius: "10px",
     border: "2px solid #FFD700",
@@ -287,6 +288,7 @@ const styles = {
     maxWidth: "400px",
     width: "90%",
     textAlign: "center",
+    zIndex: 1001, // Ensure the popup is above the overlay
   },
   popupTitle: {
     color: "#FFD700",
@@ -296,6 +298,7 @@ const styles = {
     color: "#FFD700",
     marginBottom: "20px",
     lineHeight: "1.6",
+    fontFamily: "'MedievalSharp', cursive", 
   },
 };
 
